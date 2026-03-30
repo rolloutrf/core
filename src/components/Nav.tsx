@@ -9,6 +9,7 @@ const links = [
   { to: '/checklist', label: 'Чеклист' },
   { to: '/video', label: 'Видео' },
   { to: '/calls', label: 'Звонки' },
+  { to: '/articles', label: 'Публикации' },
 ]
 
 export function Nav() {

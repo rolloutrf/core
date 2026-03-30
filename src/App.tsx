@@ -12,6 +12,7 @@ import { CommunityPage } from './pages/CommunityPage'
 import { ChecklistPage } from './pages/ChecklistPage'
 import { VideoPage } from './pages/VideoPage'
 import { CallsPage } from './pages/CallsPage'
+import { ArticlesPage } from './pages/ArticlesPage'
 import { MarkdownPage } from './pages/MarkdownPage'
 
 function HomePage() {
@@ -54,6 +55,8 @@ function App() {
         <Route path="/vacancies/detail" element={<MarkdownPage />} />
         <Route path="/calls" element={<CallsPage />} />
         <Route path="/calls/detail" element={<MarkdownPage />} />
+        <Route path="/articles" element={<ArticlesPage />} />
+        <Route path="/articles/detail" element={<MarkdownPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
