@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
-import { useFetch } from '@/hooks/useFetch'
 
 interface LocationState {
-  rawUrl: string
+  content?: string
+  rawUrl?: string
   title: string
   backPath: string
   backLabel: string
@@ -14,9 +14,7 @@ export function MarkdownPage() {
   const navigate = useNavigate()
   const state = location.state as LocationState | null
 
-  const { data: content, loading, error } = useFetch<string>(state?.rawUrl ?? '')
-
-  if (!state?.rawUrl) {
+  if (!state?.content && !state?.rawUrl) {
     return (
       <div className="py-16 px-6 max-w-7xl mx-auto text-muted-foreground">
         Страница не найдена.{' '}
@@ -37,15 +35,7 @@ export function MarkdownPage() {
           ← {state.backLabel}
         </button>
 
-        {loading && (
-          <div className="text-muted-foreground text-sm animate-pulse">Загрузка…</div>
-        )}
-
-        {error && (
-          <div className="text-muted-foreground text-sm">Ошибка загрузки: {error}</div>
-        )}
-
-        {!loading && !error && content && (
+        {state.content && (
           <ReactMarkdown
             components={{
               h1: ({ children }) => (
@@ -93,7 +83,7 @@ export function MarkdownPage() {
               ),
             }}
           >
-            {content as string}
+            {state.content}
           </ReactMarkdown>
         )}
       </div>

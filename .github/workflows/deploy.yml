@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types: [data-updated]
 
 jobs:
   build-and-deploy:
@@ -12,6 +14,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Clone data repository
+        run: git clone --depth 1 https://github.com/rolloutrf/data.git /tmp/rolloutrf-data
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -23,6 +28,8 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          DATA_REPO_PATH: /tmp/rolloutrf-data
         run: npm run build
 
       - name: Deploy to S3

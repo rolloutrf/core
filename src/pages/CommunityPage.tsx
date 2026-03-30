@@ -1,5 +1,4 @@
-import { useMemo } from 'react'
-import { useFetch } from '@/hooks/useFetch'
+import { useState, useEffect, useMemo } from 'react'
 
 interface Person {
   name: string
@@ -8,8 +7,6 @@ interface Person {
   telegram: string | null
 }
 
-const BASE_URL = 'https://raw.githubusercontent.com/rolloutrf/data/main/Community/'
-
 function parseMarkdown(md: string): Person[] {
   const sections = md.split(/^## /m).slice(1)
   return sections.map((section) => {
@@ -17,7 +14,7 @@ function parseMarkdown(md: string): Person[] {
     const name = lines[0].trim()
 
     const photoMatch = section.match(/!\[.*?\]\((photos\/[^\)]+)\)/)
-    const photoUrl = photoMatch ? BASE_URL + photoMatch[1] : null
+    const photoUrl = photoMatch ? '/data/community-photos/' + photoMatch[1].replace('photos/', '') : null
 
     const telegramMatch = section.match(/Telegram:\s*(https?:\/\/\S+)/)
     const telegram = telegramMatch ? telegramMatch[1] : null
@@ -41,11 +38,36 @@ function initials(name: string) {
     .toUpperCase()
 }
 
-const RAW_URL = 'https://raw.githubusercontent.com/rolloutrf/data/main/Community/people.md'
-
 export function CommunityPage() {
-  const { data, loading, error } = useFetch<string>(RAW_URL)
-  const people = useMemo(() => (data ? parseMarkdown(data as string) : []), [data])
+  const [content, setContent] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    fetch('/data/community.json')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
+      .then((data: { content: string }) => {
+        if (!cancelled) {
+          setContent(data.content)
+          setLoading(false)
+        }
+      })
+      .catch((e: unknown) => {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : String(e))
+          setLoading(false)
+        }
+      })
+
+    return () => { cancelled = true }
+  }, [])
+
+  const people = useMemo(() => (content ? parseMarkdown(content) : []), [content])
 
   return (
     <div className="py-16 px-6">

@@ -1,11 +1,34 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { useFetch } from '@/hooks/useFetch'
-
-const RAW_URL = 'https://raw.githubusercontent.com/rolloutrf/data/main/Intro/%D0%A2%D0%B5%D0%BA%D1%81%D1%82%20%D0%B4%D0%BB%D1%8F%20%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE.md'
 
 export function VideoPage() {
-  const { data: content, loading, error } = useFetch<string>(RAW_URL)
+  const [content, setContent] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    fetch('/data/video.json')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
+      .then((data: { content: string }) => {
+        if (!cancelled) {
+          setContent(data.content)
+          setLoading(false)
+        }
+      })
+      .catch((e: unknown) => {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : String(e))
+          setLoading(false)
+        }
+      })
+
+    return () => { cancelled = true }
+  }, [])
 
   return (
     <div className="py-16 px-6">
@@ -63,7 +86,7 @@ export function VideoPage() {
               ),
             }}
           >
-            {content as string}
+            {content}
           </ReactMarkdown>
         )}
       </div>

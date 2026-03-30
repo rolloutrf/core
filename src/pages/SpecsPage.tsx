@@ -1,25 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchCached } from '@/lib/fetchCached'
-
-interface GithubFile {
-  name: string
-  type: string
-  download_url: string | null
-  path: string
-}
 
 interface Spec {
   title: string
-  download_url: string
   dirName: string
-}
-
-const API_BASE = 'https://api.github.com/repos/rolloutrf/data/contents'
-
-function parseTitle(fileName: string): string {
-  const match = fileName.match(/^\d+\.\s+(.+)\.md$/)
-  return match ? match[1].trim() : fileName.replace('.md', '')
+  content: string
 }
 
 export function SpecsPage() {
@@ -30,46 +15,24 @@ export function SpecsPage() {
   useEffect(() => {
     let cancelled = false
 
-    async function load() {
-      try {
-        const res = await fetchCached(`${API_BASE}/Specs`)
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const dirs: GithubFile[] = await res.json()
-
-        const specDirs = dirs
-          .filter((d) => d.type === 'dir')
-          .sort((a, b) => parseInt(a.name) - parseInt(b.name))
-
-        const results = await Promise.all(
-          specDirs.map(async (dir) => {
-            const r = await fetchCached(`${API_BASE}/${dir.path}`)
-            if (!r.ok) return null
-            const files: GithubFile[] = await r.json()
-            const mdFile = files.find(
-              (f) => f.type === 'file' && f.name.endsWith('.md') && f.download_url
-            )
-            if (!mdFile) return null
-            return {
-              title: parseTitle(mdFile.name),
-              download_url: mdFile.download_url!,
-              dirName: dir.name,
-            }
-          })
-        )
-
+    fetch('/data/specs.json')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
+      .then((data: Spec[]) => {
         if (!cancelled) {
-          setSpecs(results.filter(Boolean) as Spec[])
+          setSpecs(data)
           setLoading(false)
         }
-      } catch (e) {
+      })
+      .catch((e: unknown) => {
         if (!cancelled) {
           setError(e instanceof Error ? e.message : String(e))
           setLoading(false)
         }
-      }
-    }
+      })
 
-    load()
     return () => { cancelled = true }
   }, [])
 
@@ -91,7 +54,7 @@ export function SpecsPage() {
                 key={spec.dirName}
                 to="/specs/detail"
                 state={{
-                  rawUrl: spec.download_url,
+                  content: spec.content,
                   title: spec.title,
                   backPath: '/specs',
                   backLabel: 'Спецификации',
