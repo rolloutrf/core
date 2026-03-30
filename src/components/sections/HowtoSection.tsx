@@ -61,7 +61,7 @@ export function HowtoSection() {
           </div>
 
           <div className="flex flex-col gap-5 md:gap-6">
-            <p className="text-[#E8552D] font-semibold text-lg md:text-2xl leading-relaxed">
+            <p className="text-[#E8552D] font-normal text-lg md:text-2xl leading-relaxed">
               Роллаут — это некоммерческий проект, поэтому у нас нет зарплат. Участников объединяет
               только желание делиться опытом и вместе строить цифровую экономику.
             </p>

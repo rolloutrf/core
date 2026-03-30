@@ -97,7 +97,7 @@ export function SpecsPage() {
                 }}
                 className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
               >
-                <span className="font-medium">{spec.title}</span>
+                <span className="font-normal">{spec.title}</span>
                 <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             ))}

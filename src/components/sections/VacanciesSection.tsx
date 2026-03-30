@@ -35,7 +35,7 @@ export function VacanciesSection() {
               }}
               className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
             >
-              <span className="font-medium">{v.title}</span>
+              <span className="font-normal">{v.title}</span>
               <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">→</span>
             </Link>
           ))}

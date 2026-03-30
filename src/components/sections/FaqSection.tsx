@@ -39,7 +39,7 @@ export function FaqSection() {
                 onClick={() => setOpen(open === i ? null : i)}
                 className="w-full flex items-center justify-between py-6 text-left gap-8 hover:text-muted-foreground transition-colors"
               >
-                <span className="font-medium">{faq.q}</span>
+                <span className="font-normal">{faq.q}</span>
                 <span className="text-muted-foreground shrink-0 text-lg leading-none">
                   {open === i ? '−' : '+'}
                 </span>

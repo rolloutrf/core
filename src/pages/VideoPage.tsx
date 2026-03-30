@@ -1,73 +1,71 @@
-const sections = [
-  {
-    title: 'Часть 1. Что происходит в финтехе',
-    body: `Всем привет, меня зовут Миша Колосков. Последние десять лет я занимаюсь финтехом, слежу за всеми трендами и развитием индустрии. А сейчас я с командой строю и развиваю финансовые сервисы в Авито.
+import { useLocation, useNavigate } from 'react-router-dom'
+import ReactMarkdown from 'react-markdown'
+import { useFetch } from '@/hooks/useFetch'
 
-За то время пока я слежу за финтехом, в России, на мой взгляд, получилось создать один из лучших в мире банковских и маркетплейсных опытов.
-
-Есть как минимум три причины:
-1. Полностью оцифрован весь опыт покупки и получения любой финансовой услуги. Пара кликов — и вы оформили вклад или страховку, например. Никуда ходить не надо.
-2. Крепкая технологическая база. Как раз чтобы можно было оцифровать пользовательский опыт по максимуму.
-3. Высокая эстетика интерфейсов. Просто сравните любое российское финтех-приложение с американским, к примеру, — разница заметна сразу.
-
-Но сейчас мы находимся в точке, когда нужно понять, что делать дальше.
-
-— Мы уже оцифровали все функции, которые были на поверхности. Это как раз платежи, кредиты, накопления.
-— Выход на международный рынок практически невозможен из-за санкций, аудитория не растёт.
-— Банки и другие экосистемы фактически перестали создавать инновации. Вместо этого они начали конкурировать маркетинговыми бюджетами, чтобы переманить друг у друга аудиторию.
-
-Поэтому примерно с 2019 года поднимается вопрос: «Где следующие точки роста цифровой экономики?» Представители банковского сектора и маркетплейсов приходят к выводу, что дальнейший рост возможен только через партнёрство и консолидацию рынка.`,
-  },
-  {
-    title: 'Часть 2. Всё хорошо, да не работает',
-    body: `Есть проблема: все инициативы ЦБ некуда приземлить.
-
-У цифровых гигантов огромное легаси и недостаточно гибкая инфраструктура, они не готовы тратить ресурсы на технологические проекты без быстрой окупаемости.
-
-Ещё есть компании поменьше, но они лидеры в своих направлениях. Чтобы развиваться дальше, им нужен доступ к цифровой среде. Но из-за маркетинговых войн гигантов сделать это необоснованно сложно: не хватает бюджета, экспертов и «продуманной упаковки» для своих решений.
-
-Получается проблема курицы и яйца.`,
-  },
-  {
-    title: 'Часть 3. Как поможет Роллаут',
-    body: `Чтобы выйти из этой ситуации, нужно увеличить экономический пирог. То есть повысить количество транзакций между всеми участниками торгового и финансового рынка.
-
-Роллаут как раз может этому поспособствовать.
-
-Первым делом мы определили, что должна собой представлять любая площадка, которая продаёт товары или услуги онлайн. Для этого мы взяли порядка 300 площадок из разных отраслей, проанализировали их сайты и приложения, а затем отобрали базовый минимум функций — всего 12: от регистрации до управления финансами.
-
-Сейчас работа нашей команды заключается в том, чтобы выделить лучшие практики в дизайне каждой функции. А затем ещё их усилить и докрутить до эталонного результата.
-
-Роллаут — это опенсорс-проект, поэтому мы ждём в команде всех, кто хочет повлиять на образ финтеха. Присоединяйтесь — и давайте сделаем что-нибудь классное вместе!`,
-  },
-]
+const RAW_URL = 'https://raw.githubusercontent.com/rolloutrf/data/main/Intro/%D0%A2%D0%B5%D0%BA%D1%81%D1%82%20%D0%B4%D0%BB%D1%8F%20%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE.md'
 
 export function VideoPage() {
+  const { data: content, loading, error } = useFetch<string>(RAW_URL)
+
   return (
     <div className="py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Видео</h1>
-        <p className="text-muted-foreground mb-16 max-w-lg leading-relaxed">
+        <p className="text-muted-foreground mb-10 md:mb-16 max-w-lg leading-relaxed">
           Текст для презентационного видео о проекте
         </p>
 
-        <div className="space-y-12 md:space-y-16">
-          {sections.map((section, i) => (
-            <div key={i} className="space-y-4">
-              <div>
-                <span className="text-sm font-mono text-muted-foreground">0{i + 1}</span>
-                <h2 className="text-xl md:text-3xl font-normal tracking-tight mt-1">{section.title}</h2>
-              </div>
-              <div className="space-y-4">
-                {section.body.split('\n\n').map((para, j) => (
-                  <p key={j} className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                    {para}
-                  </p>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        {loading && <p className="text-muted-foreground text-sm animate-pulse">Загрузка…</p>}
+        {error && <p className="text-muted-foreground text-sm">Ошибка загрузки: {error}</p>}
+
+        {!loading && !error && content && (
+          <ReactMarkdown
+            components={{
+              h1: ({ children }) => (
+                <h1 className="text-3xl font-normal tracking-tight mb-8 mt-0">{children}</h1>
+              ),
+              h2: ({ children }) => (
+                <h2 className="text-xl md:text-2xl font-normal mt-10 mb-4">{children}</h2>
+              ),
+              h3: ({ children }) => (
+                <h3 className="text-base font-normal mt-6 mb-2">{children}</h3>
+              ),
+              p: ({ children }) => (
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-4">{children}</p>
+              ),
+              ul: ({ children }) => (
+                <ul className="list-disc list-inside space-y-1 mb-4 text-muted-foreground">{children}</ul>
+              ),
+              ol: ({ children }) => (
+                <ol className="list-decimal list-inside space-y-1 mb-4 text-muted-foreground">{children}</ol>
+              ),
+              li: ({ children }) => (
+                <li className="leading-relaxed">{children}</li>
+              ),
+              strong: ({ children }) => (
+                <strong className="font-normal text-foreground">{children}</strong>
+              ),
+              a: ({ href, children }) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 text-foreground hover:text-muted-foreground transition-colors"
+                >
+                  {children}
+                </a>
+              ),
+              hr: () => <hr className="border-border my-8" />,
+              blockquote: ({ children }) => (
+                <blockquote className="border-l-2 border-border pl-4 text-muted-foreground italic my-4">
+                  {children}
+                </blockquote>
+              ),
+            }}
+          >
+            {content as string}
+          </ReactMarkdown>
+        )}
       </div>
     </div>
   )

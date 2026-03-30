@@ -8,6 +8,7 @@ const links = [
   { to: '/community', label: 'Комьюнити' },
   { to: '/checklist', label: 'Чеклист' },
   { to: '/video', label: 'Видео' },
+  { to: '/calls', label: 'Звонки' },
 ]
 
 export function Nav() {

@@ -74,13 +74,13 @@ export function CommunityPage() {
                     className="size-12 rounded-full object-cover shrink-0"
                   />
                 ) : (
-                  <div className="size-12 rounded-full bg-muted flex items-center justify-center text-sm font-medium text-muted-foreground shrink-0">
+                  <div className="size-12 rounded-full bg-muted flex items-center justify-center text-sm font-normal text-muted-foreground shrink-0">
                     {initials(person.name)}
                   </div>
                 )}
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-3">
-                    <h3 className="font-medium text-lg">{person.name}</h3>
+                    <h3 className="font-normal text-lg">{person.name}</h3>
                     {person.telegram && (
                       <a
                         href={person.telegram}

@@ -11,10 +11,10 @@ export function HeroSection() {
           Если вам это близко — ждём в Роллауте!
         </p>
         <a
-          href="https://forms.yandex.ru/u/68f139e102848f52318c1da2/"
+          href="https://t.me/rolloutrf"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-foreground text-background px-8 py-4 rounded-full text-sm font-medium hover:opacity-75 transition-opacity"
+          className="inline-flex items-center gap-2 bg-foreground text-background px-8 py-4 rounded-full text-sm font-normal hover:opacity-75 transition-opacity"
         >
           Присоединиться →
         </a>

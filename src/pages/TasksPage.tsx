@@ -102,12 +102,12 @@ export function TasksPage() {
                 className="flex items-center justify-between py-4 group hover:bg-muted/30 px-2 -mx-2 rounded transition-colors"
               >
                 <div className="flex items-center gap-4 min-w-0">
-                  <span className={`shrink-0 text-xs px-2 py-0.5 rounded-full font-medium ${
+                  <span className={`shrink-0 text-xs px-2 py-0.5 rounded-full font-normal ${
                     moduleColors[task.module] ?? 'bg-muted text-muted-foreground'
                   }`}>
                     {task.module}
                   </span>
-                  <span className="text-sm font-medium truncate">{task.name}</span>
+                  <span className="text-sm font-normal truncate">{task.name}</span>
                 </div>
                 <span className="text-muted-foreground group-hover:translate-x-1 transition-transform shrink-0 ml-4">→</span>
               </Link>
