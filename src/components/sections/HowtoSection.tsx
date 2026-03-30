@@ -67,7 +67,7 @@ export function HowtoSection() {
             </p>
             <p className="text-muted-foreground text-lg md:text-2xl leading-relaxed">
               Кстати, все готовые библиотеки открыты — можете{' '}
-              <a href="https://www.figma.com/@rollout" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">
+              <a href="https://www.figma.com/files/team/1482792681661398123/project/352650152?fuid=638616373568960920" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">
                 побродить по макетам
               </a>{' '}
               и покомментировать.
