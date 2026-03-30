@@ -1,22 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchCached } from '@/lib/fetchCached'
-
-interface GithubFile {
-  name: string
-  type: string
-  download_url: string | null
-}
 
 interface CallFile {
   title: string
-  download_url: string
-}
-
-const API = 'https://api.github.com/repos/rolloutrf/data/contents/Calls'
-
-function parseTitle(fileName: string): string {
-  return fileName.replace(/\.md$/i, '')
+  content: string
 }
 
 export function CallsPage() {
@@ -27,32 +14,24 @@ export function CallsPage() {
   useEffect(() => {
     let cancelled = false
 
-    async function load() {
-      try {
-        const res = await fetchCached(API)
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const files: GithubFile[] = await res.json()
-
-        const mdFiles = files
-          .filter((f) => f.type === 'file' && f.name.endsWith('.md') && f.download_url)
-          .map((f) => ({
-            title: parseTitle(f.name),
-            download_url: f.download_url!,
-          }))
-
+    fetch('/data/calls.json')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
+      .then((data: CallFile[]) => {
         if (!cancelled) {
-          setCalls(mdFiles)
+          setCalls(data)
           setLoading(false)
         }
-      } catch (e) {
+      })
+      .catch((e: unknown) => {
         if (!cancelled) {
           setError(e instanceof Error ? e.message : String(e))
           setLoading(false)
         }
-      }
-    }
+      })
 
-    load()
     return () => { cancelled = true }
   }, [])
 
@@ -74,7 +53,7 @@ export function CallsPage() {
                 key={call.title}
                 to="/calls/detail"
                 state={{
-                  rawUrl: call.download_url,
+                  content: call.content,
                   title: call.title,
                   backPath: '/calls',
                   backLabel: 'Звонки',

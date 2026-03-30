@@ -1,0 +1,17 @@
+name: Trigger core rebuild
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger core deployment
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.CORE_DISPATCH_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/rolloutrf/core/dispatches \
+            -d '{"event_type": "data-updated"}'

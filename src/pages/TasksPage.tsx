@@ -1,32 +1,17 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchCached } from '@/lib/fetchCached'
-
-interface GithubFile {
-  name: string
-  type: string
-  download_url: string | null
-  path: string
-}
 
 interface Task {
   name: string
-  download_url: string
   module: string
+  content: string
 }
-
-const API_BASE = 'https://api.github.com/repos/rolloutrf/data/contents'
 
 const moduleColors: Record<string, string> = {
   'History': 'bg-blue-950/60 text-blue-300',
   'PFM': 'bg-purple-950/60 text-purple-300',
   'Auth': 'bg-green-950/60 text-green-300',
   'Loyalty': 'bg-orange-950/60 text-orange-300',
-}
-
-function parseModuleName(dirName: string): string {
-  const match = dirName.match(/^\d+\.\s+(.+)$/)
-  return match ? match[1].trim() : dirName
 }
 
 export function TasksPage() {
@@ -37,43 +22,24 @@ export function TasksPage() {
   useEffect(() => {
     let cancelled = false
 
-    async function load() {
-      try {
-        const res = await fetchCached(`${API_BASE}/Tasks`)
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const dirs: GithubFile[] = await res.json()
-
-        const moduleDirs = dirs.filter((d) => d.type === 'dir')
-
-        const results = await Promise.all(
-          moduleDirs.map(async (dir) => {
-            const r = await fetchCached(`${API_BASE}/${dir.path}`)
-            if (!r.ok) return []
-            const files: GithubFile[] = await r.json()
-            const moduleName = parseModuleName(dir.name)
-            return files
-              .filter((f) => f.type === 'file' && f.name !== '.DS_Store' && f.download_url)
-              .map((f) => ({
-                name: f.name,
-                download_url: f.download_url!,
-                module: moduleName,
-              }))
-          })
-        )
-
+    fetch('/data/tasks.json')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
+      .then((data: Task[]) => {
         if (!cancelled) {
-          setTasks(results.flat())
+          setTasks(data)
           setLoading(false)
         }
-      } catch (e) {
+      })
+      .catch((e: unknown) => {
         if (!cancelled) {
           setError(e instanceof Error ? e.message : String(e))
           setLoading(false)
         }
-      }
-    }
+      })
 
-    load()
     return () => { cancelled = true }
   }, [])
 
@@ -95,7 +61,7 @@ export function TasksPage() {
                 key={task.name}
                 to="/tasks/detail"
                 state={{
-                  rawUrl: task.download_url,
+                  content: task.content,
                   title: task.name,
                   backPath: '/tasks',
                   backLabel: 'Задачи',
