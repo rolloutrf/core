@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { fetchCached } from '@/lib/fetchCached'
 
 interface GithubFile {
   name: string
@@ -28,7 +29,7 @@ export function CallsPage() {
 
     async function load() {
       try {
-        const res = await fetch(API)
+        const res = await fetchCached(API)
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         const files: GithubFile[] = await res.json()
 

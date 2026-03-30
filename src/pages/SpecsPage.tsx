@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { fetchCached } from '@/lib/fetchCached'
 
 interface GithubFile {
   name: string
@@ -31,7 +32,7 @@ export function SpecsPage() {
 
     async function load() {
       try {
-        const res = await fetch(`${API_BASE}/Specs`)
+        const res = await fetchCached(`${API_BASE}/Specs`)
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         const dirs: GithubFile[] = await res.json()
 
@@ -41,7 +42,7 @@ export function SpecsPage() {
 
         const results = await Promise.all(
           specDirs.map(async (dir) => {
-            const r = await fetch(`${API_BASE}/${dir.path}`)
+            const r = await fetchCached(`${API_BASE}/${dir.path}`)
             if (!r.ok) return null
             const files: GithubFile[] = await r.json()
             const mdFile = files.find(
