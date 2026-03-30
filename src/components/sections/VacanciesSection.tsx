@@ -14,12 +14,12 @@ const RAW_BASE = 'https://raw.githubusercontent.com/rolloutrf/data/main/Vacancy/
 
 export function VacanciesSection() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-16 md:py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-normal tracking-tight mb-4">
+        <h2 className="text-2xl md:text-4xl font-normal tracking-tight mb-4">
           Кого мы ищем
         </h2>
-        <p className="text-muted-foreground mb-16 max-w-lg leading-relaxed">
+        <p className="text-muted-foreground mb-10 md:mb-16 max-w-lg leading-relaxed">
           Открытые позиции в Роллауте — присоединяйтесь к команде
         </p>
         <div className="divide-y divide-border border-y border-border">

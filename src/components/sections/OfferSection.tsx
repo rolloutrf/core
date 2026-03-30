@@ -106,9 +106,9 @@ const offers = [
 
 export function OfferSection() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-16 md:py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-normal tracking-tight mb-16">
+        <h2 className="text-2xl md:text-4xl font-normal tracking-tight mb-10 md:mb-16">
           Что можем предложить
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -120,7 +120,7 @@ export function OfferSection() {
                   <StarIcon />
                 </div>
                 <span className="text-[#E8552D] text-3xl">{item.num}</span>
-                <p className="text-xl leading-relaxed">
+                <p className="text-base md:text-xl leading-relaxed">
                   <span className="text-[#E8552D]">{item.title}</span>{' '}
                   <span className="text-muted-foreground">{item.desc}</span>
                 </p>

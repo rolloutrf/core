@@ -42,16 +42,16 @@ function StarRight() {
 
 export function HowtoSection() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-16 md:py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="border-t-2 border-[#E8552D] pt-12" />
+        <div className="border-t-2 border-[#E8552D] pt-10 md:pt-12" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div className="flex flex-col gap-6">
-            <h2 className="text-3xl md:text-4xl font-normal tracking-tight">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+          <div className="flex flex-col gap-5 md:gap-6">
+            <h2 className="text-2xl md:text-4xl font-normal tracking-tight">
               Как тут всё устроено
             </h2>
-            <p className="text-muted-foreground text-xl md:text-2xl leading-relaxed">
+            <p className="text-muted-foreground text-lg md:text-2xl leading-relaxed">
               В остальном всё как в обычной продуктовой команде. Созваниваемся, генерим гипотезы,
               исследуем рынок и аудиторию, обсуждаем стратегию и макеты.
             </p>
@@ -60,12 +60,12 @@ export function HowtoSection() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-6">
-            <p className="text-[#E8552D] font-semibold text-xl md:text-2xl leading-relaxed">
+          <div className="flex flex-col gap-5 md:gap-6">
+            <p className="text-[#E8552D] font-semibold text-lg md:text-2xl leading-relaxed">
               Роллаут — это некоммерческий проект, поэтому у нас нет зарплат. Участников объединяет
               только желание делиться опытом и вместе строить цифровую экономику.
             </p>
-            <p className="text-muted-foreground text-xl md:text-2xl leading-relaxed">
+            <p className="text-muted-foreground text-lg md:text-2xl leading-relaxed">
               Кстати, все готовые библиотеки открыты — можете{' '}
               <a href="https://www.figma.com/@rollout" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">
                 побродить по макетам

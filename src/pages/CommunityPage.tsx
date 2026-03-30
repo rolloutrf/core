@@ -51,7 +51,7 @@ export function CommunityPage() {
     <div className="py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Комьюнити</h1>
-        <p className="text-xl text-muted-foreground mb-12 max-w-2xl leading-relaxed">
+        <p className="text-lg md:text-xl text-muted-foreground mb-10 md:mb-12 max-w-2xl leading-relaxed">
           Эксперты из финтеха, e-commerce и смежных областей
         </p>
 
@@ -66,7 +66,7 @@ export function CommunityPage() {
         {!loading && !error && (
           <div className="divide-y divide-border border-y border-border">
             {people.map((person) => (
-              <div key={person.name} className="py-8 flex gap-6">
+              <div key={person.name} className="py-6 md:py-8 flex gap-4 md:gap-6">
                 {person.photoUrl ? (
                   <img
                     src={person.photoUrl}

@@ -51,16 +51,16 @@ export function VideoPage() {
           Текст для презентационного видео о проекте
         </p>
 
-        <div className="space-y-16">
+        <div className="space-y-12 md:space-y-16">
           {sections.map((section, i) => (
             <div key={i} className="space-y-4">
               <div>
                 <span className="text-sm font-mono text-muted-foreground">0{i + 1}</span>
-                <h2 className="text-2xl md:text-3xl font-normal tracking-tight mt-1">{section.title}</h2>
+                <h2 className="text-xl md:text-3xl font-normal tracking-tight mt-1">{section.title}</h2>
               </div>
               <div className="space-y-4">
                 {section.body.split('\n\n').map((para, j) => (
-                  <p key={j} className="text-lg text-muted-foreground leading-relaxed">
+                  <p key={j} className="text-base md:text-lg text-muted-foreground leading-relaxed">
                     {para}
                   </p>
                 ))}

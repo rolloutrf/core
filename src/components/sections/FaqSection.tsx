@@ -27,9 +27,9 @@ export function FaqSection() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section className="py-24 px-6">
+    <section className="py-16 md:py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-normal tracking-tight mb-16">
+        <h2 className="text-2xl md:text-4xl font-normal tracking-tight mb-10 md:mb-16">
           Ответы на частые вопросы
         </h2>
         <div className="divide-y divide-border border-t border-border">
@@ -45,7 +45,7 @@ export function FaqSection() {
                 </span>
               </button>
               {open === i && (
-                <div className="pb-6 pr-12">
+                <div className="pb-6 pr-4 md:pr-12">
                   {faq.a.split('\n\n').map((para, j) => (
                     <p key={j} className="text-muted-foreground leading-relaxed mb-3 last:mb-0">
                       {para}

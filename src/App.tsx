@@ -28,7 +28,7 @@ function HomePage() {
 
 function Footer() {
   return (
-    <footer className="py-12 px-6">
+    <footer className="py-8 md:py-12 px-6">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <img src="https://static.tildacdn.com/tild3466-6438-4330-b739-303166383362/favi.png" alt="Rollout" className="h-18 w-18" />
         <span className="text-sm text-muted-foreground">Rollout</span>

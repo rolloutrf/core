@@ -1,18 +1,20 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useFetch } from '@/hooks/useFetch'
 
 interface GithubFile {
   name: string
   type: string
   download_url: string | null
+  path: string
 }
 
-const API = 'https://api.github.com/repos/rolloutrf/data/contents/Tasks'
-
-function parseModule(name: string): string {
-  const match = name.match(/\d+[. ]+([^:]+):/)
-  return match ? match[1].trim() : ''
+interface Task {
+  name: string
+  download_url: string
+  module: string
 }
+
+const API_BASE = 'https://api.github.com/repos/rolloutrf/data/contents'
 
 const moduleColors: Record<string, string> = {
   'History': 'bg-blue-950/60 text-blue-300',
@@ -21,11 +23,58 @@ const moduleColors: Record<string, string> = {
   'Loyalty': 'bg-orange-950/60 text-orange-300',
 }
 
-export function TasksPage() {
-  const { data, loading, error } = useFetch<GithubFile[]>(API)
+function parseModuleName(dirName: string): string {
+  const match = dirName.match(/^\d+\.\s+(.+)$/)
+  return match ? match[1].trim() : dirName
+}
 
-  const tasks = (data ?? [])
-    .filter((f) => f.type === 'file' && f.name !== '.DS_Store' && f.download_url)
+export function TasksPage() {
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function load() {
+      try {
+        const res = await fetch(`${API_BASE}/Tasks`)
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const dirs: GithubFile[] = await res.json()
+
+        const moduleDirs = dirs.filter((d) => d.type === 'dir')
+
+        const results = await Promise.all(
+          moduleDirs.map(async (dir) => {
+            const r = await fetch(`${API_BASE}/${dir.path}`)
+            if (!r.ok) return []
+            const files: GithubFile[] = await r.json()
+            const moduleName = parseModuleName(dir.name)
+            return files
+              .filter((f) => f.type === 'file' && f.name !== '.DS_Store' && f.download_url)
+              .map((f) => ({
+                name: f.name,
+                download_url: f.download_url!,
+                module: moduleName,
+              }))
+          })
+        )
+
+        if (!cancelled) {
+          setTasks(results.flat())
+          setLoading(false)
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : String(e))
+          setLoading(false)
+        }
+      }
+    }
+
+    load()
+    return () => { cancelled = true }
+  }, [])
 
   return (
     <div className="py-16 px-6">
@@ -40,34 +89,29 @@ export function TasksPage() {
 
         {!loading && !error && (
           <div className="divide-y divide-border border-y border-border">
-            {tasks.map((task) => {
-              const module = parseModule(task.name)
-              return (
-                <Link
-                  key={task.name}
-                  to="/tasks/detail"
-                  state={{
-                    rawUrl: task.download_url,
-                    title: task.name,
-                    backPath: '/tasks',
-                    backLabel: 'Задачи',
-                  }}
-                  className="flex items-center justify-between py-4 group hover:bg-muted/30 px-2 -mx-2 rounded transition-colors"
-                >
-                  <div className="flex items-center gap-4 min-w-0">
-                    {module && (
-                      <span className={`shrink-0 text-xs px-2 py-0.5 rounded-full font-medium ${
-                        moduleColors[module] ?? 'bg-muted text-muted-foreground'
-                      }`}>
-                        {module}
-                      </span>
-                    )}
-                    <span className="text-sm font-medium truncate">{task.name}</span>
-                  </div>
-                  <span className="text-muted-foreground group-hover:translate-x-1 transition-transform shrink-0 ml-4">→</span>
-                </Link>
-              )
-            })}
+            {tasks.map((task) => (
+              <Link
+                key={task.name}
+                to="/tasks/detail"
+                state={{
+                  rawUrl: task.download_url,
+                  title: task.name,
+                  backPath: '/tasks',
+                  backLabel: 'Задачи',
+                }}
+                className="flex items-center justify-between py-4 group hover:bg-muted/30 px-2 -mx-2 rounded transition-colors"
+              >
+                <div className="flex items-center gap-4 min-w-0">
+                  <span className={`shrink-0 text-xs px-2 py-0.5 rounded-full font-medium ${
+                    moduleColors[task.module] ?? 'bg-muted text-muted-foreground'
+                  }`}>
+                    {task.module}
+                  </span>
+                  <span className="text-sm font-medium truncate">{task.name}</span>
+                </div>
+                <span className="text-muted-foreground group-hover:translate-x-1 transition-transform shrink-0 ml-4">→</span>
+              </Link>
+            ))}
           </div>
         )}
       </div>

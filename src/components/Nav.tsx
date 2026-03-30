@@ -13,7 +13,7 @@ const links = [
 export function Nav() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-6 flex items-center gap-1 h-12 overflow-x-auto">
+      <div className="max-w-7xl mx-auto px-6 flex items-center gap-1 h-12 overflow-x-auto scrollbar-hide">
         <img src="https://static.tildacdn.com/tild3466-6438-4330-b739-303166383362/favi.png" alt="Rollout" className="h-5 w-5 mr-4 shrink-0" />
         {links.map(({ to, label }) => (
           <NavLink
