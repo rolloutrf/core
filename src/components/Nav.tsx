@@ -7,7 +7,7 @@ const links = [
   { to: '/specs', label: 'Спецификации' },
   { to: '/community', label: 'Комьюнити' },
   { to: '/checklist', label: 'Чеклист' },
-  { to: '/video', label: 'Видео' },
+  { to: '/intro', label: 'Интро' },
   { to: '/calls', label: 'Звонки' },
   { to: '/articles', label: 'Публикации' },
 ]

@@ -92,7 +92,9 @@ console.log('Generating calls.json...')
 const callsDir = join(DATA_DIR, 'Calls')
 const calls = []
 if (existsSync(callsDir)) {
-  for (const file of readdirSync(callsDir)) {
+  const callFiles = readdirSync(callsDir).filter(file => file.endsWith('.md')).sort()
+
+  for (const file of callFiles) {
     if (!file.endsWith('.md')) continue
     calls.push({
       title: file.replace(/\.md$/i, ''),
@@ -100,7 +102,13 @@ if (existsSync(callsDir)) {
     })
   }
 }
-writeFileSync(join(OUT_DIR, 'calls.json'), JSON.stringify(calls, null, 2))
+writeFileSync(
+  join(OUT_DIR, 'calls.json'),
+  JSON.stringify({
+    items: calls,
+    primary: calls[0] ?? null,
+  }, null, 2)
+)
 console.log(`  ${calls.length} calls`)
 
 // 4. Articles
