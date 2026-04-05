@@ -1,42 +1,40 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
-
 interface CallFile {
   title: string
   content: string
 }
 
-interface CallsData {
-  items: CallFile[]
-  primary: CallFile | null
-}
-
 export function CallsPage() {
   const [calls, setCalls] = useState<CallFile[]>([])
-  const [primary, setPrimary] = useState<CallFile | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
 
-    fetch('/data/calls.json')
+    fetch('/data/Calls/Созвоны.md')
       .then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`)
-        return r.json()
+        return r.text()
       })
-      .then((data: CallsData | CallFile[]) => {
+      .then((text: string) => {
         if (cancelled) return
 
-        if (Array.isArray(data)) {
-          setCalls(data)
-          setPrimary(data.length === 1 ? data[0] : null)
-        } else {
-          setCalls(data.items ?? [])
-          setPrimary(data.primary ?? null)
+        const iframeRegex = /<iframe[\s\S]*?src="([^"]+)"[\s\S]*?><\/iframe>/g
+        const matches = []
+        let match
+        while ((match = iframeRegex.exec(text)) !== null) {
+          let src = match[1]
+          if (src.includes('video.yandex.cloud/iframe/')) {
+            src = src.replace('video.yandex.cloud/iframe/', 'runtime.video.cloud.yandex.net/player/video/')
+          }
+          matches.push({
+            title: `Звонок ${matches.length + 1}`,
+            content: src
+          })
         }
-
+        setCalls(matches)
         setLoading(false)
       })
       .catch((e: unknown) => {
@@ -49,8 +47,6 @@ export function CallsPage() {
     return () => { cancelled = true }
   }, [])
 
-  const showPrimaryContent = !!primary && calls.length <= 1
-
   return (
     <div className="py-16 px-6">
       <div className="max-w-5xl mx-auto">
@@ -62,70 +58,24 @@ export function CallsPage() {
         {loading && <p className="text-muted-foreground text-sm animate-pulse">Загрузка…</p>}
         {error && <p className="text-muted-foreground text-sm">Ошибка загрузки: {error}</p>}
 
-        {!loading && !error && showPrimaryContent && (
-          <ReactMarkdown
-            components={{
-              h1: ({ children }) => (
-                <h1 className="text-3xl font-normal tracking-tight mb-8 mt-0">{children}</h1>
-              ),
-              h2: ({ children }) => (
-                <h2 className="text-xl md:text-2xl font-normal mt-10 mb-4">{children}</h2>
-              ),
-              h3: ({ children }) => (
-                <h3 className="text-base font-normal mt-6 mb-2">{children}</h3>
-              ),
-              p: ({ children }) => (
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-4">{children}</p>
-              ),
-              ul: ({ children }) => (
-                <ul className="list-disc list-inside space-y-1 mb-4 text-muted-foreground">{children}</ul>
-              ),
-              ol: ({ children }) => (
-                <ol className="list-decimal list-inside space-y-1 mb-4 text-muted-foreground">{children}</ol>
-              ),
-              li: ({ children }) => (
-                <li className="leading-relaxed">{children}</li>
-              ),
-              strong: ({ children }) => (
-                <strong className="font-normal text-foreground">{children}</strong>
-              ),
-              a: ({ href, children }) => (
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-2 text-foreground hover:text-muted-foreground transition-colors"
-                >
-                  {children}
-                </a>
-              ),
-              hr: () => <hr className="border-border my-8" />,
-              blockquote: ({ children }) => (
-                <blockquote className="border-l-2 border-border pl-4 text-muted-foreground italic my-4">
-                  {children}
-                </blockquote>
-              ),
-            }}
-          >
-            {primary.content}
-          </ReactMarkdown>
-        )}
-
-        {!loading && !error && !showPrimaryContent && (
+        {!loading && !error && (
           <div className="divide-y divide-border border-y border-border">
-            {calls.map((call) => (
+            {calls.map((call, index) => (
               <Link
-                key={call.title}
+                key={index}
                 to="/calls/detail"
                 state={{
-                  content: call.content,
                   title: call.title,
+                  content: call.content,
                   backPath: '/calls',
                   backLabel: 'Звонки',
                 }}
                 className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
               >
-                <span className="font-normal">{call.title}</span>
+                <div className="flex items-center gap-4">
+                  <span className="text-xs text-muted-foreground italic w-6"># {index + 1}</span>
+                  <span className="font-normal">{call.title}</span>
+                </div>
                 <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             ))}
