@@ -214,20 +214,31 @@ if (existsSync(photosDir)) {
   console.log(`  ${photoCount} community photos copied`)
 }
 
-// 6. Video
-console.log('Generating video.json...')
-const videoDir = join(DATA_DIR, 'Intro')
-let videoContent = ''
-if (existsSync(videoDir)) {
-  const videoFile = readdirSync(videoDir).find(f => f.endsWith('.md'))
-  if (videoFile) {
-    videoContent = readFileSync(join(videoDir, videoFile), 'utf-8')
+// 6. Intro
+console.log('Generating intro.json...')
+const introDir = join(DATA_DIR, 'Intro')
+let introContent = ''
+if (existsSync(introDir)) {
+  const introFile = readdirSync(introDir).find(f => f.endsWith('.md'))
+  if (introFile) {
+    introContent = readFileSync(join(introDir, introFile), 'utf-8')
   }
 }
-writeFileSync(join(OUT_DIR, 'video.json'), JSON.stringify({ content: videoContent }, null, 2))
-console.log('  video.json')
+writeFileSync(join(OUT_DIR, 'intro.json'), JSON.stringify({ content: introContent }, null, 2))
+console.log('  intro.json')
 
-// 7. Vacancies
+// 7. Video
+console.log('Generating video.json...')
+writeFileSync(
+  join(OUT_DIR, 'video.json'),
+  JSON.stringify({
+    items: calls,
+    primary: calls[0] ?? null,
+  }, null, 2)
+)
+console.log(`  ${calls.length} video items`)
+
+// 8. Vacancies
 console.log('Generating vacancies.json...')
 const vacancyDir = join(DATA_DIR, 'Vacancy')
 const vacancies = []
@@ -257,7 +268,7 @@ if (existsSync(vacancyDir)) {
 writeFileSync(join(OUT_DIR, 'vacancies.json'), JSON.stringify(vacancies, null, 2))
 console.log(`  ${vacancies.length} vacancies`)
 
-// 8. Onboarding
+// 9. Onboarding
 console.log('Generating onboarding.json...')
 const onboardingDir = join(DATA_DIR, 'Onboarding')
 const onboarding = []
