@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 
+const VACANCY_RESPONSE_URL = 'https://t.me/rolloutrf'
+
 interface CollectionItem {
   slug: string
   title?: string
@@ -14,6 +16,16 @@ interface CollectionDetailPageProps {
   backPath: string
   backLabel: string
   titleFallbackKey?: 'title' | 'name'
+}
+
+function prepareMarkdownContent(content: string, title: string, isVacancyPage: boolean) {
+  const baseContent = content.startsWith('# ') ? content : `# ${title}\n\n${content}`
+
+  if (!isVacancyPage) {
+    return baseContent
+  }
+
+  return baseContent.replace(/^Откликнуться$/gm, `[Откликнуться](${VACANCY_RESPONSE_URL})`)
 }
 
 export function CollectionDetailPage({
@@ -83,6 +95,8 @@ export function CollectionDetailPage({
   }
 
   const pageTitle = titleFallbackKey === 'name' ? (item.name ?? item.title ?? '') : (item.title ?? item.name ?? '')
+  const isVacancyPage = dataPath === '/data/vacancies.json'
+  const markdownContent = prepareMarkdownContent(item.content, pageTitle, isVacancyPage)
 
   return (
     <div className="py-12 px-6">
@@ -121,14 +135,25 @@ export function CollectionDetailPage({
               <strong className="font-normal text-foreground">{children}</strong>
             ),
             a: ({ href, children }) => (
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-2 text-foreground hover:text-muted-foreground transition-colors"
-              >
-                {children}
-              </a>
+              href === VACANCY_RESPONSE_URL ? (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center bg-[#E8552D] px-4 py-2 text-sm text-white hover:opacity-90 transition-opacity"
+                >
+                  {children}
+                </a>
+              ) : (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 text-foreground hover:text-muted-foreground transition-colors"
+                >
+                  {children}
+                </a>
+              )
             ),
             hr: () => <hr className="border-border my-8" />,
             code: ({ children }) => (
@@ -141,7 +166,7 @@ export function CollectionDetailPage({
             ),
           }}
         >
-          {item.content.startsWith('# ') ? item.content : `# ${pageTitle}\n\n${item.content}`}
+          {markdownContent}
         </ReactMarkdown>
       </div>
     </div>
