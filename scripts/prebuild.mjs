@@ -167,30 +167,42 @@ console.log(`  ${calls.length} calls`)
 // 4. Articles
 console.log('Generating articles.json...')
 const articlesDir = join(DATA_DIR, 'Articles')
+const vcMediaFile = join(DATA_DIR, 'Media', 'Для VC.md')
 const articles = []
+const usedArticleSlugs = new Set()
+
+function pushArticle(filePath, slugOverride) {
+  if (!existsSync(filePath) || !filePath.endsWith('.md')) return
+
+  const content = readFileSync(filePath, 'utf-8')
+  const headingMatch = content.match(/^#\s+(.+)$/m)
+  const title = headingMatch ? headingMatch[1].trim() : basename(filePath).replace(/\.md$/i, '')
+  const baseSlug = slugOverride ?? createSlug(title) ?? `article-${articles.length + 1}`
+  let slug = baseSlug
+  let duplicateIndex = 2
+
+  while (usedArticleSlugs.has(slug)) {
+    slug = `${baseSlug}-${duplicateIndex}`
+    duplicateIndex += 1
+  }
+
+  usedArticleSlugs.add(slug)
+
+  articles.push({
+    slug,
+    title,
+    content,
+  })
+}
+
 if (existsSync(articlesDir)) {
-  const usedArticleSlugs = new Set()
   for (const filePath of walkFiles(articlesDir)) {
-    if (!filePath.endsWith('.md')) continue
-    const title = basename(filePath).replace(/\.md$/i, '')
-    const baseSlug = createSlug(title) || `article-${articles.length + 1}`
-    let slug = baseSlug
-    let duplicateIndex = 2
-
-    while (usedArticleSlugs.has(slug)) {
-      slug = `${baseSlug}-${duplicateIndex}`
-      duplicateIndex += 1
-    }
-
-    usedArticleSlugs.add(slug)
-
-    articles.push({
-      slug,
-      title,
-      content: readFileSync(filePath, 'utf-8'),
-    })
+    pushArticle(filePath)
   }
 }
+
+pushArticle(vcMediaFile, 'vc')
+
 writeFileSync(join(OUT_DIR, 'articles.json'), JSON.stringify(articles, null, 2))
 console.log(`  ${articles.length} articles`)
 

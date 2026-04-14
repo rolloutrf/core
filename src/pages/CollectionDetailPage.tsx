@@ -19,7 +19,8 @@ interface CollectionDetailPageProps {
 }
 
 function prepareMarkdownContent(content: string, title: string, isVacancyPage: boolean) {
-  const baseContent = content.startsWith('# ') ? content : `# ${title}\n\n${content}`
+  const baseContent = (content.startsWith('# ') ? content : `# ${title}\n\n${content}`)
+    .replace(/(^|[\s>])(https?:\/\/[^\s)]+)/gm, '$1<$2>')
 
   if (!isVacancyPage) {
     return baseContent
