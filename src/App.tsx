@@ -1,20 +1,23 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Nav } from './components/Nav'
+import { FaqSection } from './components/sections/FaqSection'
 import { HeroSection } from './components/sections/HeroSection'
-import { TeamSection } from './components/sections/TeamSection'
 import { HowtoSection } from './components/sections/HowtoSection'
 import { OfferSection } from './components/sections/OfferSection'
+import { TeamSection } from './components/sections/TeamSection'
 import { VacanciesSection } from './components/sections/VacanciesSection'
-import { FaqSection } from './components/sections/FaqSection'
-import { TasksPage } from './pages/TasksPage'
-import { SpecsPage } from './pages/SpecsPage'
-import { CommunityPage } from './pages/CommunityPage'
-import { ChecklistPage } from './pages/ChecklistPage'
-import { IntroPage } from './pages/IntroPage'
-import { CallsPage } from './pages/CallsPage'
 import { ArticlesPage } from './pages/ArticlesPage'
-import { MarkdownPage } from './pages/MarkdownPage'
 import { CallDetailPage } from './pages/CallDetailPage'
+import { CallsPage } from './pages/CallsPage'
+import { ChecklistPage } from './pages/ChecklistPage'
+import { CollectionDetailPage } from './pages/CollectionDetailPage'
+import { CommunityMemberPage } from './pages/CommunityMemberPage'
+import { CommunityPage } from './pages/CommunityPage'
+import { IntroPage } from './pages/IntroPage'
+import { OnboardingPage } from './pages/OnboardingPage'
+import { SpecsPage } from './pages/SpecsPage'
+import { TasksPage } from './pages/TasksPage'
+import { VideoPage } from './pages/VideoPage'
 
 function HomePage() {
   return (
@@ -47,17 +50,21 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/tasks" element={<TasksPage />} />
+        <Route path="/tasks/:slug" element={<CollectionDetailPage dataPath="/data/tasks.json" backPath="/tasks" backLabel="Задачи" titleFallbackKey="name" />} />
         <Route path="/specs" element={<SpecsPage />} />
-        <Route path="/specs/detail" element={<MarkdownPage />} />
-        <Route path="/tasks/detail" element={<MarkdownPage />} />
+        <Route path="/specs/:slug" element={<CollectionDetailPage dataPath="/data/specs.json" backPath="/specs" backLabel="Спецификации" />} />
         <Route path="/community" element={<CommunityPage />} />
+        <Route path="/community/:slug" element={<CommunityMemberPage />} />
         <Route path="/checklist" element={<ChecklistPage />} />
         <Route path="/intro" element={<IntroPage />} />
-        <Route path="/vacancies/detail" element={<MarkdownPage />} />
+        <Route path="/video" element={<VideoPage />} />
+        <Route path="/vacancies/:slug" element={<CollectionDetailPage dataPath="/data/vacancies.json" backPath="/" backLabel="Главная" />} />
         <Route path="/calls" element={<CallsPage />} />
-        <Route path="/calls/detail" element={<CallDetailPage />} />
+        <Route path="/calls/:slug" element={<CallDetailPage />} />
         <Route path="/articles" element={<ArticlesPage />} />
-        <Route path="/articles/detail" element={<MarkdownPage />} />
+        <Route path="/articles/:slug" element={<CollectionDetailPage dataPath="/data/articles.json" backPath="/articles" backLabel="Публикации" />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/onboarding/:slug" element={<CollectionDetailPage dataPath="/data/onboarding.json" backPath="/onboarding" backLabel="Онбординг" />} />
       </Routes>
       <Footer />
     </BrowserRouter>

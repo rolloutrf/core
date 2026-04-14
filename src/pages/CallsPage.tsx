@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
 interface CallFile {
+  slug: string
   title: string
   content: string
+}
+
+interface CallsResponse {
+  items?: CallFile[]
+}
+
+function normalizeCallsResponse(data: CallFile[] | CallsResponse) {
+  return Array.isArray(data) ? data : (data.items ?? [])
 }
 
 export function CallsPage() {
@@ -13,38 +23,27 @@ export function CallsPage() {
   useEffect(() => {
     let cancelled = false
 
-    fetch('/data/Calls/Созвоны.md')
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`)
-        return r.text()
+    fetch('/data/calls.json')
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        return response.json()
       })
-      .then((text: string) => {
-        if (cancelled) return
-
-        const iframeRegex = /<iframe[\s\S]*?src="([^"]+)"[\s\S]*?><\/iframe>/g
-        const matches = []
-        let match
-        while ((match = iframeRegex.exec(text)) !== null) {
-          let src = match[1]
-          if (src.includes('video.yandex.cloud/iframe/')) {
-            src = src.replace('video.yandex.cloud/iframe/', 'runtime.video.cloud.yandex.net/player/video/')
-          }
-          matches.push({
-            title: `Звонок ${matches.length + 1}`,
-            content: src
-          })
-        }
-        setCalls(matches)
-        setLoading(false)
-      })
-      .catch((e: unknown) => {
+      .then((data: CallFile[] | CallsResponse) => {
         if (!cancelled) {
-          setError(e instanceof Error ? e.message : String(e))
+          setCalls(normalizeCallsResponse(data))
+          setLoading(false)
+        }
+      })
+      .catch((fetchError: unknown) => {
+        if (!cancelled) {
+          setError(fetchError instanceof Error ? fetchError.message : String(fetchError))
           setLoading(false)
         }
       })
 
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   return (
@@ -52,7 +51,7 @@ export function CallsPage() {
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Звонки</h1>
         <p className="text-muted-foreground mb-10 md:mb-12 max-w-lg leading-relaxed">
-          Записи встреч команды
+          Архив записей созвонов Rollout
         </p>
 
         {loading && <p className="text-muted-foreground text-sm animate-pulse">Загрузка…</p>}
@@ -62,21 +61,15 @@ export function CallsPage() {
           <div className="divide-y divide-border border-y border-border">
             {calls.map((call, index) => (
               <Link
-                key={index}
-                to="/calls/detail"
-                state={{
-                  title: call.title,
-                  content: call.content,
-                  backPath: '/calls',
-                  backLabel: 'Звонки',
-                }}
-                className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
+                key={call.slug}
+                to={`/calls/${call.slug}`}
+                className="flex items-center justify-between py-5 group hover:bg-muted/30 px-2 -mx-2 transition-colors"
               >
-                <div className="flex items-center gap-4">
-                  <span className="text-xs text-muted-foreground italic w-6"># {index + 1}</span>
-                  <span className="font-normal">{call.title}</span>
+                <div className="flex items-center gap-4 min-w-0">
+                  <span className="text-[#E8552D] text-sm shrink-0">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="font-normal truncate">{call.title}</span>
                 </div>
-                <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">→</span>
+                <span className="text-muted-foreground group-hover:translate-x-1 transition-transform shrink-0 ml-4">→</span>
               </Link>
             ))}
           </div>

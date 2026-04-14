@@ -31,7 +31,13 @@ export function ChecklistPage() {
   function toggle(i: number) {
     setChecked((prev) => {
       const next = new Set(prev)
-      next.has(i) ? next.delete(i) : next.add(i)
+
+      if (next.has(i)) {
+        next.delete(i)
+      } else {
+        next.add(i)
+      }
+
       return next
     })
   }
@@ -50,7 +56,7 @@ export function ChecklistPage() {
         <div className="mb-10">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-muted-foreground">Прогресс</span>
-            <span className="text-sm font-medium">{checked.size} / {items.length}</span>
+            <span className="text-sm font-normal">{checked.size} / {items.length}</span>
           </div>
           <div className="h-1.5 bg-muted rounded-full overflow-hidden">
             <div

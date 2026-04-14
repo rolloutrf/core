@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 interface Task {
+  slug: string
   name: string
   module: string
   content: string
@@ -58,14 +59,8 @@ export function TasksPage() {
           <div className="divide-y divide-border border-y border-border">
             {tasks.map((task) => (
               <Link
-                key={task.name}
-                to="/tasks/detail"
-                state={{
-                  content: task.content,
-                  title: task.name,
-                  backPath: '/tasks',
-                  backLabel: 'Задачи',
-                }}
+                key={task.slug}
+                to={`/tasks/${task.slug}`}
                 className="flex items-center justify-between py-4 group hover:bg-muted/30 px-2 -mx-2 rounded transition-colors"
               >
                 <div className="flex items-center gap-4 min-w-0">

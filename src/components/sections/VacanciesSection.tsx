@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 interface Vacancy {
+  slug: string
   title: string
   content: string
 }
@@ -30,14 +31,8 @@ export function VacanciesSection() {
         <div className="divide-y divide-border border-y border-border">
           {vacancies.map((v) => (
             <Link
-              key={v.title}
-              to="/vacancies/detail"
-              state={{
-                content: v.content,
-                title: v.title,
-                backPath: '/',
-                backLabel: 'Главная',
-              }}
+              key={v.slug}
+              to={`/vacancies/${v.slug}`}
               className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
             >
               <span className="font-normal">{v.title}</span>

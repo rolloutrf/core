@@ -36,11 +36,23 @@ function walkFiles(dir) {
   return results
 }
 
+function createSlug(value) {
+  return value
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/\.md$/i, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^\p{L}\p{N}-]+/gu, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
 // 1. Tasks
 console.log('Generating tasks.json...')
 const tasksDir = join(DATA_DIR, 'Tasks')
 const tasks = []
 if (existsSync(tasksDir)) {
+  const usedTaskSlugs = new Set()
   for (const entry of readdirSync(tasksDir, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue
     const moduleDirName = entry.name
@@ -51,7 +63,19 @@ if (existsSync(tasksDir)) {
       if (file === '.DS_Store') continue
       const filePath = join(moduleDir, file)
       if (!statSync(filePath).isFile()) continue
+      const baseSlug = createSlug(`${moduleName}-${file}`) || `task-${tasks.length + 1}`
+      let slug = baseSlug
+      let duplicateIndex = 2
+
+      while (usedTaskSlugs.has(slug)) {
+        slug = `${baseSlug}-${duplicateIndex}`
+        duplicateIndex += 1
+      }
+
+      usedTaskSlugs.add(slug)
+
       tasks.push({
+        slug,
         name: file,
         module: moduleName,
         content: readFileSync(filePath, 'utf-8'),
@@ -67,6 +91,7 @@ console.log('Generating specs.json...')
 const specsDir = join(DATA_DIR, 'Specs')
 const specs = []
 if (existsSync(specsDir)) {
+  const usedSpecSlugs = new Set()
   const specDirs = readdirSync(specsDir, { withFileTypes: true })
     .filter(d => d.isDirectory())
     .sort((a, b) => parseInt(a.name) - parseInt(b.name))
@@ -77,7 +102,19 @@ if (existsSync(specsDir)) {
     if (!mdFile) continue
     const titleMatch = mdFile.match(/^\d+\.\s+(.+)\.md$/)
     const title = titleMatch ? titleMatch[1].trim() : mdFile.replace('.md', '')
+    const baseSlug = createSlug(dir.name) || `spec-${specs.length + 1}`
+    let slug = baseSlug
+    let duplicateIndex = 2
+
+    while (usedSpecSlugs.has(slug)) {
+      slug = `${baseSlug}-${duplicateIndex}`
+      duplicateIndex += 1
+    }
+
+    usedSpecSlugs.add(slug)
+
     specs.push({
+      slug,
       dirName: dir.name,
       title,
       content: readFileSync(join(dirPath, mdFile), 'utf-8'),
@@ -92,13 +129,29 @@ console.log('Generating calls.json...')
 const callsDir = join(DATA_DIR, 'Calls')
 const calls = []
 if (existsSync(callsDir)) {
-  const callFiles = readdirSync(callsDir).filter(file => file.endsWith('.md')).sort()
+  const callFiles = readdirSync(callsDir)
+    .filter(file => file.endsWith('.md'))
+    .sort((a, b) => a.localeCompare(b, 'ru', { numeric: true, sensitivity: 'base' }))
+  const usedSlugs = new Set()
 
   for (const file of callFiles) {
-    if (!file.endsWith('.md')) continue
+    const content = readFileSync(join(callsDir, file), 'utf-8')
+    const headingMatch = content.match(/^#\s+(.+)$/m)
+    const baseSlug = createSlug(file) || `call-${calls.length + 1}`
+    let slug = baseSlug
+
+    let duplicateIndex = 2
+    while (usedSlugs.has(slug)) {
+      slug = `${baseSlug}-${duplicateIndex}`
+      duplicateIndex += 1
+    }
+
+    usedSlugs.add(slug)
+
     calls.push({
-      title: file.replace(/\.md$/i, ''),
-      content: readFileSync(join(callsDir, file), 'utf-8'),
+      slug,
+      title: headingMatch ? headingMatch[1].trim() : file.replace(/\.md$/i, ''),
+      content,
     })
   }
 }
@@ -116,10 +169,24 @@ console.log('Generating articles.json...')
 const articlesDir = join(DATA_DIR, 'Articles')
 const articles = []
 if (existsSync(articlesDir)) {
+  const usedArticleSlugs = new Set()
   for (const filePath of walkFiles(articlesDir)) {
     if (!filePath.endsWith('.md')) continue
+    const title = basename(filePath).replace(/\.md$/i, '')
+    const baseSlug = createSlug(title) || `article-${articles.length + 1}`
+    let slug = baseSlug
+    let duplicateIndex = 2
+
+    while (usedArticleSlugs.has(slug)) {
+      slug = `${baseSlug}-${duplicateIndex}`
+      duplicateIndex += 1
+    }
+
+    usedArticleSlugs.add(slug)
+
     articles.push({
-      title: basename(filePath).replace(/\.md$/i, ''),
+      slug,
+      title,
       content: readFileSync(filePath, 'utf-8'),
     })
   }
@@ -165,15 +232,63 @@ console.log('Generating vacancies.json...')
 const vacancyDir = join(DATA_DIR, 'Vacancy')
 const vacancies = []
 if (existsSync(vacancyDir)) {
+  const usedVacancySlugs = new Set()
   for (const file of readdirSync(vacancyDir)) {
     if (!file.endsWith('.md')) continue
+    const title = file.replace(/\.md$/i, '')
+    const baseSlug = createSlug(title) || `vacancy-${vacancies.length + 1}`
+    let slug = baseSlug
+    let duplicateIndex = 2
+
+    while (usedVacancySlugs.has(slug)) {
+      slug = `${baseSlug}-${duplicateIndex}`
+      duplicateIndex += 1
+    }
+
+    usedVacancySlugs.add(slug)
+
     vacancies.push({
-      title: file.replace(/\.md$/i, ''),
+      slug,
+      title,
       content: readFileSync(join(vacancyDir, file), 'utf-8'),
     })
   }
 }
 writeFileSync(join(OUT_DIR, 'vacancies.json'), JSON.stringify(vacancies, null, 2))
 console.log(`  ${vacancies.length} vacancies`)
+
+// 8. Onboarding
+console.log('Generating onboarding.json...')
+const onboardingDir = join(DATA_DIR, 'Onboarding')
+const onboarding = []
+if (existsSync(onboardingDir)) {
+  const usedOnboardingSlugs = new Set()
+
+  for (const filePath of walkFiles(onboardingDir).sort((a, b) => a.localeCompare(b, 'ru', { numeric: true, sensitivity: 'base' }))) {
+    if (!filePath.endsWith('.md')) continue
+
+    const content = readFileSync(filePath, 'utf-8')
+    const title = basename(filePath).replace(/\.md$/i, '')
+    const headingMatch = content.match(/^#\s+(.+)$/m)
+    const baseSlug = createSlug(title) || `onboarding-${onboarding.length + 1}`
+    let slug = baseSlug
+    let duplicateIndex = 2
+
+    while (usedOnboardingSlugs.has(slug)) {
+      slug = `${baseSlug}-${duplicateIndex}`
+      duplicateIndex += 1
+    }
+
+    usedOnboardingSlugs.add(slug)
+
+    onboarding.push({
+      slug,
+      title: headingMatch ? headingMatch[1].trim() : title,
+      content,
+    })
+  }
+}
+writeFileSync(join(OUT_DIR, 'onboarding.json'), JSON.stringify(onboarding, null, 2))
+console.log(`  ${onboarding.length} onboarding docs`)
 
 console.log('Prebuild complete!')
