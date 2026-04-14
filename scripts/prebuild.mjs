@@ -175,6 +175,8 @@ function pushArticle(filePath, slugOverride) {
   if (!existsSync(filePath) || !filePath.endsWith('.md')) return
 
   const content = readFileSync(filePath, 'utf-8')
+  if (content.trim() === '...') return
+
   const headingMatch = content.match(/^#\s+(.+)$/m)
   const title = headingMatch ? headingMatch[1].trim() : basename(filePath).replace(/\.md$/i, '')
   const baseSlug = slugOverride ?? createSlug(title) ?? `article-${articles.length + 1}`
@@ -195,13 +197,24 @@ function pushArticle(filePath, slugOverride) {
   })
 }
 
+function replaceArticleBySlug(slug, filePath) {
+  for (let index = articles.length - 1; index >= 0; index -= 1) {
+    if (articles[index].slug === slug) {
+      articles.splice(index, 1)
+    }
+  }
+
+  usedArticleSlugs.delete(slug)
+  pushArticle(filePath, slug)
+}
+
 if (existsSync(articlesDir)) {
   for (const filePath of walkFiles(articlesDir)) {
     pushArticle(filePath)
   }
 }
 
-pushArticle(vcMediaFile, 'vc')
+replaceArticleBySlug('vc', vcMediaFile)
 
 writeFileSync(join(OUT_DIR, 'articles.json'), JSON.stringify(articles, null, 2))
 console.log(`  ${articles.length} articles`)
