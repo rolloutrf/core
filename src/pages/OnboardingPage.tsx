@@ -112,28 +112,28 @@ export function OnboardingPage() {
               <h1 className="text-3xl font-normal tracking-tight mb-8 mt-0">{children}</h1>
             ),
             h2: ({ children }) => (
-              <h2 className="text-2xl md:text-3xl font-normal tracking-tight mt-12 mb-5">{children}</h2>
+              <h2 className="text-xl font-normal mt-10 mb-4">{children}</h2>
             ),
             h3: ({ children }) => (
-              <h3 className="text-xl md:text-2xl font-normal tracking-tight mt-8 mb-4">{children}</h3>
+              <h3 className="text-base font-normal mt-6 mb-2">{children}</h3>
             ),
             p: ({ children }) => (
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-5">{children}</p>
+              <p className="text-muted-foreground leading-relaxed mb-4">{children}</p>
             ),
             ul: ({ children }) => (
-              <ul className="list-disc pl-6 space-y-2 mb-5 text-base md:text-lg text-muted-foreground">{children}</ul>
+              <ul className="list-disc list-inside space-y-1 mb-4 text-muted-foreground">{children}</ul>
             ),
             ol: ({ children }) => (
-              <ol className="list-decimal pl-6 space-y-2 mb-5 text-base md:text-lg text-muted-foreground">{children}</ol>
+              <ol className="list-decimal list-inside space-y-1 mb-4 text-muted-foreground">{children}</ol>
             ),
-            li: ({ children }) => <li className="leading-relaxed pl-1">{children}</li>,
+            li: ({ children }) => <li className="leading-relaxed">{children}</li>,
             strong: ({ children }) => <strong className="font-normal text-foreground">{children}</strong>,
             a: ({ href, children }) => (
               <a
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#E8552D] underline underline-offset-2 hover:text-foreground transition-colors"
+                className="underline underline-offset-2 text-foreground hover:text-muted-foreground transition-colors"
               >
                 {children}
               </a>

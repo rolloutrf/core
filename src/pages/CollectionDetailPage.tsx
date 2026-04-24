@@ -165,6 +165,9 @@ export function CollectionDetailPage({
                 {children}
               </blockquote>
             ),
+            img: ({ src, alt }) => (
+              <img src={src} alt={alt ?? ''} className="w-full my-6 rounded" />
+            ),
           }}
         >
           {markdownContent}

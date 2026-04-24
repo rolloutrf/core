@@ -18,11 +18,22 @@ function normalizeCallsResponse(data: CallFile[] | CallsResponse) {
 
 function extractIframeSrc(content: string) {
   const match = content.match(/<iframe[^>]*src="([^"]+)"[^>]*>/i)
-  return match ? match[1] : null
+  if (!match) return null
+
+  const src = match[1]
+  const cloudMatch = src.match(/video\.yandex\.cloud\/iframe\/([^?]+)/)
+  if (cloudMatch) {
+    return `https://runtime.video.cloud.yandex.net/player/video/${cloudMatch[1]}?autoplay=0&mute=0`
+  }
+
+  return src
 }
 
 function stripIframe(content: string) {
-  return content.replace(/<iframe[\s\S]*?<\/iframe>/gi, '').trim()
+  return content
+    .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+    .replace(/^#\s+.+(\n|$)/, '')
+    .trim()
 }
 
 export function CallDetailPage() {
@@ -102,14 +113,24 @@ export function CallDetailPage() {
         <h1 className="text-3xl md:text-4xl font-normal tracking-tight mb-8">{call.title}</h1>
 
         {iframeSrc && (
-          <div className="aspect-video border border-border bg-black mb-8">
-            <iframe
-              src={iframeSrc}
-              title={call.title}
-              className="h-full w-full"
-              allow="fullscreen; picture-in-picture; encrypted-media"
-              allowFullScreen
-            />
+          <div className="mb-8">
+            <div className="aspect-video border border-border bg-muted">
+              <iframe
+                src={iframeSrc}
+                title={call.title}
+                className="h-full w-full"
+                allow="autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture; encrypted-media"
+                allowFullScreen
+              />
+            </div>
+            <a
+              href={iframeSrc}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-3 text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors"
+            >
+              Открыть видео в новой вкладке →
+            </a>
           </div>
         )}
 

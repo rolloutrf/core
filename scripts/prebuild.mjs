@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
-import { join, basename } from 'node:path'
+import { join, basename, dirname } from 'node:path'
 
 const OUT_DIR = 'public/data'
 const CLONE_DIR = '/tmp/rolloutrf-data'
@@ -19,6 +19,7 @@ if (process.env.DATA_REPO_PATH && existsSync(process.env.DATA_REPO_PATH)) {
 // Ensure output directories exist
 mkdirSync(OUT_DIR, { recursive: true })
 mkdirSync(join(OUT_DIR, 'community-photos'), { recursive: true })
+mkdirSync(join(OUT_DIR, 'article-images'), { recursive: true })
 
 // Helper: recursively list all files in a directory
 function walkFiles(dir) {
@@ -167,14 +168,13 @@ console.log(`  ${calls.length} calls`)
 // 4. Articles
 console.log('Generating articles.json...')
 const articlesDir = join(DATA_DIR, 'Articles')
-const vcMediaFile = join(DATA_DIR, 'Media', 'Для VC.md')
 const articles = []
 const usedArticleSlugs = new Set()
 
 function pushArticle(filePath, slugOverride) {
   if (!existsSync(filePath) || !filePath.endsWith('.md')) return
 
-  const content = readFileSync(filePath, 'utf-8')
+  let content = readFileSync(filePath, 'utf-8')
   if (content.trim() === '...') return
 
   const headingMatch = content.match(/^#\s+(.+)$/m)
@@ -190,6 +190,15 @@ function pushArticle(filePath, slugOverride) {
 
   usedArticleSlugs.add(slug)
 
+  const articleDir = dirname(filePath)
+  const imagesDir = join(articleDir, 'images')
+  if (existsSync(imagesDir)) {
+    const destDir = join(OUT_DIR, 'article-images', slug)
+    mkdirSync(destDir, { recursive: true })
+    cpSync(imagesDir, destDir, { recursive: true })
+    content = content.replace(/\(images\//g, `(/data/article-images/${slug}/`)
+  }
+
   articles.push({
     slug,
     title,
@@ -197,24 +206,12 @@ function pushArticle(filePath, slugOverride) {
   })
 }
 
-function replaceArticleBySlug(slug, filePath) {
-  for (let index = articles.length - 1; index >= 0; index -= 1) {
-    if (articles[index].slug === slug) {
-      articles.splice(index, 1)
-    }
-  }
-
-  usedArticleSlugs.delete(slug)
-  pushArticle(filePath, slug)
-}
 
 if (existsSync(articlesDir)) {
   for (const filePath of walkFiles(articlesDir)) {
     pushArticle(filePath)
   }
 }
-
-replaceArticleBySlug('vc', vcMediaFile)
 
 writeFileSync(join(OUT_DIR, 'articles.json'), JSON.stringify(articles, null, 2))
 console.log(`  ${articles.length} articles`)

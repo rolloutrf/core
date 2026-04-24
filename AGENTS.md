@@ -113,6 +113,28 @@ const { data } = useFetch<GithubFile[]>(API)
 - Основной текст: `text-xl md:text-2xl`
 - Подписи/роли: `text-base`
 
+### Стили markdown-контента (единый стандарт для всех страниц)
+
+Все страницы, рендерящие Markdown через `ReactMarkdown`, должны использовать одинаковые стили компонентов:
+
+```tsx
+h1: <h1 className="text-3xl font-normal tracking-tight mb-8 mt-0">
+h2: <h2 className="text-xl font-normal mt-10 mb-4">
+h3: <h3 className="text-base font-normal mt-6 mb-2">
+p:  <p className="text-muted-foreground leading-relaxed mb-4">
+ul: <ul className="list-disc list-inside space-y-1 mb-4 text-muted-foreground">
+ol: <ol className="list-decimal list-inside space-y-1 mb-4 text-muted-foreground">
+li: <li className="leading-relaxed">
+strong: <strong className="font-normal text-foreground">
+a:  underline-offset-2, внешние ссылки — target="_blank"
+hr: <hr className="border-border my-8">
+code: <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">
+blockquote: border-l-2 border-border pl-4 text-muted-foreground italic
+img: <img className="w-full my-6 rounded">
+```
+
+Не использовать `text-base md:text-lg` или другие адаптивные размеры на параграфах и списках — базовый размер шрифта достаточен.
+
 ### Лейаут
 - Контейнер: `max-w-7xl mx-auto px-6`
 - Секции: `<section className="py-24 px-6">`

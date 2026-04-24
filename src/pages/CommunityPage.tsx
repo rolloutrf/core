@@ -52,10 +52,9 @@ export function CommunityPage() {
         {!loading && !error && (
           <div className="divide-y divide-border border-y border-border">
             {people.map((person) => (
-              <Link
+              <div
                 key={person.slug}
-                to={`/community/${person.slug}`}
-                className="py-6 md:py-8 flex gap-4 md:gap-6 hover:bg-muted/20 px-2 -mx-2 transition-colors"
+                className="py-6 md:py-8 flex gap-4 md:gap-6"
               >
                 {person.photoUrl ? (
                   <img
@@ -70,7 +69,12 @@ export function CommunityPage() {
                 )}
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-3">
-                    <h3 className="font-normal text-lg">{person.name}</h3>
+                    <Link
+                      to={`/community/${person.slug}`}
+                      className="font-normal text-lg hover:text-muted-foreground transition-colors"
+                    >
+                      {person.name}
+                    </Link>
                     {person.telegram && (
                       <a
                         href={person.telegram}
@@ -84,7 +88,7 @@ export function CommunityPage() {
                   </div>
                   <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{person.bio}</p>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}
