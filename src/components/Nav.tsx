@@ -10,6 +10,7 @@ const links = [
   { to: '/intro', label: 'Интро' },
   { to: '/calls', label: 'Звонки' },
   { to: '/articles', label: 'Публикации' },
+  { to: '/onboarding', label: 'Онбординг' },
 ]
 
 export function Nav() {

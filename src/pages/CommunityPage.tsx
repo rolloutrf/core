@@ -1,42 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
-
-interface Person {
-  name: string
-  bio: string
-  photoUrl: string | null
-  telegram: string | null
-}
-
-function parseMarkdown(md: string): Person[] {
-  const sections = md.split(/^## /m).slice(1)
-  return sections.map((section) => {
-    const lines = section.split('\n')
-    const name = lines[0].trim()
-
-    const photoMatch = section.match(/!\[.*?\]\((photos\/[^\)]+)\)/)
-    const photoUrl = photoMatch ? '/data/community-photos/' + photoMatch[1].replace('photos/', '') : null
-
-    const telegramMatch = section.match(/Telegram:\s*(https?:\/\/\S+)/)
-    const telegram = telegramMatch ? telegramMatch[1] : null
-
-    const bio = lines
-      .slice(1)
-      .filter((l) => !l.startsWith('![') && !l.startsWith('Telegram:') && l.trim() !== '---')
-      .join('\n')
-      .trim()
-
-    return { name, bio, photoUrl, telegram }
-  }).filter((p) => p.name && p.bio)
-}
-
-function initials(name: string) {
-  return name
-    .split(' ')
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join('')
-    .toUpperCase()
-}
+import { Link } from 'react-router-dom'
+import { getCommunityInitials, parseCommunityMarkdown } from '@/lib/community'
 
 export function CommunityPage() {
   const [content, setContent] = useState<string | null>(null)
@@ -67,7 +31,7 @@ export function CommunityPage() {
     return () => { cancelled = true }
   }, [])
 
-  const people = useMemo(() => (content ? parseMarkdown(content) : []), [content])
+  const people = useMemo(() => (content ? parseCommunityMarkdown(content) : []), [content])
 
   return (
     <div className="py-16 px-6">
@@ -88,7 +52,11 @@ export function CommunityPage() {
         {!loading && !error && (
           <div className="divide-y divide-border border-y border-border">
             {people.map((person) => (
-              <div key={person.name} className="py-6 md:py-8 flex gap-4 md:gap-6">
+              <Link
+                key={person.slug}
+                to={`/community/${person.slug}`}
+                className="py-6 md:py-8 flex gap-4 md:gap-6 hover:bg-muted/20 px-2 -mx-2 transition-colors"
+              >
                 {person.photoUrl ? (
                   <img
                     src={person.photoUrl}
@@ -97,7 +65,7 @@ export function CommunityPage() {
                   />
                 ) : (
                   <div className="size-12 rounded-full bg-muted flex items-center justify-center text-sm font-normal text-muted-foreground shrink-0">
-                    {initials(person.name)}
+                    {getCommunityInitials(person.name)}
                   </div>
                 )}
                 <div className="flex flex-col gap-2">
@@ -116,7 +84,7 @@ export function CommunityPage() {
                   </div>
                   <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{person.bio}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

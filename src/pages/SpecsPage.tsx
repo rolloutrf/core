@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 interface Spec {
+  slug: string
   title: string
   dirName: string
   content: string
@@ -51,14 +52,8 @@ export function SpecsPage() {
           <div className="divide-y divide-border border-y border-border">
             {specs.map((spec) => (
               <Link
-                key={spec.dirName}
-                to="/specs/detail"
-                state={{
-                  content: spec.content,
-                  title: spec.title,
-                  backPath: '/specs',
-                  backLabel: 'Спецификации',
-                }}
+                key={spec.slug}
+                to={`/specs/${spec.slug}`}
                 className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
               >
                 <span className="font-normal">{spec.title}</span>

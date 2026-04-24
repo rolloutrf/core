@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 interface Article {
+  slug: string
   title: string
   content: string
 }
@@ -50,14 +51,8 @@ export function ArticlesPage() {
           <div className="divide-y divide-border border-y border-border">
             {articles.map((article) => (
               <Link
-                key={article.title}
-                to="/articles/detail"
-                state={{
-                  content: article.content,
-                  title: article.title,
-                  backPath: '/articles',
-                  backLabel: 'Публикации',
-                }}
+                key={article.slug}
+                to={`/articles/${article.slug}`}
                 className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
               >
                 <span className="font-normal">{article.title}</span>

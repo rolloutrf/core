@@ -42,10 +42,10 @@ export function MarkdownPage() {
                 <h1 className="text-3xl font-normal tracking-tight mb-8 mt-0">{children}</h1>
               ),
               h2: ({ children }) => (
-                <h2 className="text-xl font-semibold mt-10 mb-4">{children}</h2>
+                <h2 className="text-xl font-normal mt-10 mb-4">{children}</h2>
               ),
               h3: ({ children }) => (
-                <h3 className="text-base font-semibold mt-6 mb-2">{children}</h3>
+                <h3 className="text-base font-normal mt-6 mb-2">{children}</h3>
               ),
               p: ({ children }) => (
                 <p className="text-muted-foreground leading-relaxed mb-4">{children}</p>
@@ -60,7 +60,7 @@ export function MarkdownPage() {
                 <li className="leading-relaxed">{children}</li>
               ),
               strong: ({ children }) => (
-                <strong className="font-semibold text-foreground">{children}</strong>
+                <strong className="font-normal text-foreground">{children}</strong>
               ),
               a: ({ href, children }) => (
                 <a
