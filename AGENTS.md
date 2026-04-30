@@ -118,7 +118,7 @@ const { data } = useFetch<GithubFile[]>(API)
 Все страницы, рендерящие Markdown через `ReactMarkdown`, должны использовать одинаковые стили компонентов:
 
 ```tsx
-h1: <h1 className="text-3xl font-normal tracking-tight mb-8 mt-0">
+h1: <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-8 mt-0">
 h2: <h2 className="text-xl font-normal mt-10 mb-4">
 h3: <h3 className="text-base font-normal mt-6 mb-2">
 p:  <p className="text-muted-foreground leading-relaxed mb-4">
