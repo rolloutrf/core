@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const VACANCY_RESPONSE_URL = 'https://t.me/rolloutrf'
 
@@ -110,6 +111,7 @@ export function CollectionDetailPage({
         </button>
 
         <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
           components={{
             h1: ({ children }) => (
               <h1 className="text-3xl font-normal tracking-tight mb-8 mt-0">{children}</h1>
@@ -167,6 +169,22 @@ export function CollectionDetailPage({
             ),
             img: ({ src, alt }) => (
               <img src={src} alt={alt ?? ''} className="w-full my-6 rounded" />
+            ),
+            pre: ({ children }) => (
+              <pre className="bg-muted rounded p-4 overflow-x-auto mb-4 font-mono text-xs leading-relaxed">
+                {children}
+              </pre>
+            ),
+            table: ({ children }) => (
+              <div className="overflow-x-auto mb-6">
+                <table className="text-sm border-collapse w-full">{children}</table>
+              </div>
+            ),
+            th: ({ children }) => (
+              <th className="text-left py-2 px-3 border border-border font-normal text-foreground bg-muted">{children}</th>
+            ),
+            td: ({ children }) => (
+              <td className="py-2 px-3 border border-border text-muted-foreground">{children}</td>
             ),
           }}
         >

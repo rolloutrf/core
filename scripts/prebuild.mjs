@@ -324,4 +324,28 @@ if (existsSync(onboardingDir)) {
 writeFileSync(join(OUT_DIR, 'onboarding.json'), JSON.stringify(onboarding, null, 2))
 console.log(`  ${onboarding.length} onboarding docs`)
 
+// 10. HowTo
+console.log('Generating howto.json...')
+const howtoDir = join(DATA_DIR, 'HowTo')
+const howto = []
+if (existsSync(howtoDir)) {
+  const usedHowtoSlugs = new Set()
+  for (const file of readdirSync(howtoDir).filter(f => f.endsWith('.md')).sort()) {
+    const content = readFileSync(join(howtoDir, file), 'utf-8')
+    const headingMatch = content.match(/^#\s+(.+)$/m)
+    const title = headingMatch ? headingMatch[1].trim() : file.replace(/\.md$/i, '')
+    const baseSlug = createSlug(file) || `howto-${howto.length + 1}`
+    let slug = baseSlug
+    let duplicateIndex = 2
+    while (usedHowtoSlugs.has(slug)) {
+      slug = `${baseSlug}-${duplicateIndex}`
+      duplicateIndex += 1
+    }
+    usedHowtoSlugs.add(slug)
+    howto.push({ slug, title, content })
+  }
+}
+writeFileSync(join(OUT_DIR, 'howto.json'), JSON.stringify(howto, null, 2))
+console.log(`  ${howto.length} howto docs`)
+
 console.log('Prebuild complete!')

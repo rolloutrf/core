@@ -11,6 +11,7 @@ const links = [
   { to: '/calls', label: 'Звонки' },
   { to: '/articles', label: 'Публикации' },
   { to: '/onboarding', label: 'Онбординг' },
+  { to: '/frontend', label: 'Фронтенд' },
 ]
 
 export function Nav() {

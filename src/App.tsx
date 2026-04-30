@@ -14,6 +14,7 @@ import { CollectionDetailPage } from './pages/CollectionDetailPage'
 import { CommunityMemberPage } from './pages/CommunityMemberPage'
 import { CommunityPage } from './pages/CommunityPage'
 import { IntroPage } from './pages/IntroPage'
+import { FrontendPage } from './pages/FrontendPage'
 import { OnboardingPage } from './pages/OnboardingPage'
 import { SpecsPage } from './pages/SpecsPage'
 import { TasksPage } from './pages/TasksPage'
@@ -65,6 +66,8 @@ function App() {
         <Route path="/articles/:slug" element={<CollectionDetailPage dataPath="/data/articles.json" backPath="/articles" backLabel="Публикации" />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/onboarding/:slug" element={<CollectionDetailPage dataPath="/data/onboarding.json" backPath="/onboarding" backLabel="Онбординг" />} />
+        <Route path="/frontend" element={<FrontendPage />} />
+        <Route path="/frontend/:slug" element={<CollectionDetailPage dataPath="/data/howto.json" backPath="/frontend" backLabel="Фронтенд" />} />
       </Routes>
       <Footer />
     </BrowserRouter>

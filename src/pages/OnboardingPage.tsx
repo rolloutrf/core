@@ -121,10 +121,10 @@ export function OnboardingPage() {
               <p className="text-muted-foreground leading-relaxed mb-4">{children}</p>
             ),
             ul: ({ children }) => (
-              <ul className="list-disc list-inside space-y-1 mb-4 text-muted-foreground">{children}</ul>
+              <ul className="list-disc list-outside pl-5 space-y-1 mb-4 text-muted-foreground">{children}</ul>
             ),
             ol: ({ children }) => (
-              <ol className="list-decimal list-inside space-y-1 mb-4 text-muted-foreground">{children}</ol>
+              <ol className="list-decimal list-outside pl-5 space-y-1 mb-4 text-muted-foreground">{children}</ol>
             ),
             li: ({ children }) => <li className="leading-relaxed">{children}</li>,
             strong: ({ children }) => <strong className="font-normal text-foreground">{children}</strong>,
