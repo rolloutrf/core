@@ -13,6 +13,10 @@ const moduleColors: Record<string, string> = {
   'PFM': 'bg-purple-950/60 text-purple-300',
   'Auth': 'bg-green-950/60 text-green-300',
   'Loyalty': 'bg-orange-950/60 text-orange-300',
+  'AI': 'bg-cyan-950/60 text-cyan-300',
+  'ID': 'bg-rose-950/60 text-rose-300',
+  'Snippets': 'bg-yellow-950/60 text-yellow-300',
+  'Payments': 'bg-emerald-950/60 text-emerald-300',
 }
 
 export function TasksPage() {

@@ -75,11 +75,14 @@ if (existsSync(tasksDir)) {
 
       usedTaskSlugs.add(slug)
 
+      const taskContent = readFileSync(filePath, 'utf-8')
+      const headingMatch = taskContent.match(/^#\s+(.+)$/m)
+      const taskName = headingMatch ? headingMatch[1].trim() : file.replace(/\.md$/i, '')
       tasks.push({
         slug,
-        name: file,
+        name: taskName,
         module: moduleName,
-        content: readFileSync(filePath, 'utf-8'),
+        content: taskContent,
       })
     }
   }
