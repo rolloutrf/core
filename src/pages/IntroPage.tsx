@@ -106,7 +106,7 @@ export function IntroPage() {
         <ReactMarkdown
           components={{
             h1: ({ children }) => (
-              <h2 className="text-3xl font-normal tracking-tight mb-8 mt-0">{children}</h2>
+              <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-8 mt-0">{children}</h1>
             ),
             h2: ({ children }) => (
               <h2 className="text-xl font-normal mt-10 mb-4">{children}</h2>
