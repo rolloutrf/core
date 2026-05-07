@@ -75,7 +75,8 @@ if (existsSync(tasksDir)) {
 
       usedTaskSlugs.add(slug)
 
-      const taskContent = readFileSync(filePath, 'utf-8')
+      const rawTaskContent = readFileSync(filePath, 'utf-8')
+      const taskContent = rawTaskContent.replace(/\(([^\)]+)\)\[([^\]]+)\]/g, '[$1]($2)')
       const headingMatch = taskContent.match(/^#\s+(.+)$/m)
       const taskName = headingMatch ? headingMatch[1].trim() : file.replace(/\.md$/i, '')
       tasks.push({
