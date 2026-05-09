@@ -168,7 +168,9 @@ export function CollectionDetailPage({
               </blockquote>
             ),
             img: ({ src, alt }) => (
-              <img src={src} alt={alt ?? ''} className="w-full my-6 rounded" />
+              <div className="relative left-1/2 -translate-x-1/2 w-[min(64rem,100vw)] my-6">
+                <img src={src} alt={alt ?? ''} className="w-full rounded" />
+              </div>
             ),
             pre: ({ children }) => (
               <pre className="bg-muted rounded p-4 overflow-x-auto mb-4 font-mono text-xs leading-relaxed">
