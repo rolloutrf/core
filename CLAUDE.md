@@ -1,5 +1,9 @@
 # Rules for Claude
 
+## UI — Numbers and headings
+
+Never place a number (index, counter, ordinal) on a separate line above a heading or title. Numbers must always be inline — on the same line as the text they label.
+
 ## UI — Heading consistency
 
 All pages must use the same heading size for their top-level title:

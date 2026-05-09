@@ -6,12 +6,11 @@ const links = [
   { to: '/tasks', label: 'Задачи' },
   { to: '/specs', label: 'Спецификации' },
   { to: '/community', label: 'Комьюнити' },
-  { to: '/checklist', label: 'Чеклист' },
   { to: '/intro', label: 'Интро' },
   { to: '/calls', label: 'Звонки' },
   { to: '/articles', label: 'Публикации' },
   { to: '/onboarding', label: 'Онбординг' },
-  { to: '/frontend', label: 'Фронтенд' },
+  { to: '/frontend', label: 'Инструкции' },
 ]
 
 export function Nav() {

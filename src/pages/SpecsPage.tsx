@@ -56,7 +56,10 @@ export function SpecsPage() {
                 to={`/specs/${spec.slug}`}
                 className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
               >
-                <span className="font-normal">{spec.title}</span>
+                <span className="flex items-center gap-4">
+                  <span className="text-muted-foreground text-sm w-5 shrink-0">{spec.dirName.match(/^\d+/)?.[0]}</span>
+                  <span className="font-normal">{spec.title}</span>
+                </span>
                 <span className="text-muted-foreground group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             ))}

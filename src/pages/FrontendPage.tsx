@@ -41,7 +41,7 @@ export function FrontendPage() {
   return (
     <div className="py-16 px-6">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Фронтенд</h1>
+        <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Инструкции</h1>
         <p className="text-muted-foreground mb-12 max-w-lg leading-relaxed">
           Гайды по разработке интерфейсов в экосистеме Роллаута
         </p>

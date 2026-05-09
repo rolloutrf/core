@@ -9,7 +9,6 @@ import { VacanciesSection } from './components/sections/VacanciesSection'
 import { ArticlesPage } from './pages/ArticlesPage'
 import { CallDetailPage } from './pages/CallDetailPage'
 import { CallsPage } from './pages/CallsPage'
-import { ChecklistPage } from './pages/ChecklistPage'
 import { CollectionDetailPage } from './pages/CollectionDetailPage'
 import { CommunityMemberPage } from './pages/CommunityMemberPage'
 import { CommunityPage } from './pages/CommunityPage'
@@ -58,7 +57,6 @@ function App() {
             <Route path="/specs/:slug" element={<CollectionDetailPage dataPath="/data/specs.json" backPath="/specs" backLabel="Спецификации" />} />
             <Route path="/community" element={<CommunityPage />} />
             <Route path="/community/:slug" element={<CommunityMemberPage />} />
-            <Route path="/checklist" element={<ChecklistPage />} />
             <Route path="/intro" element={<IntroPage />} />
             <Route path="/video" element={<VideoPage />} />
             <Route path="/vacancies/:slug" element={<CollectionDetailPage dataPath="/data/vacancies.json" backPath="/" backLabel="Главная" />} />
@@ -69,7 +67,7 @@ function App() {
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/onboarding/:slug" element={<CollectionDetailPage dataPath="/data/onboarding.json" backPath="/onboarding" backLabel="Онбординг" />} />
             <Route path="/frontend" element={<FrontendPage />} />
-            <Route path="/frontend/:slug" element={<CollectionDetailPage dataPath="/data/howto.json" backPath="/frontend" backLabel="Фронтенд" />} />
+            <Route path="/frontend/:slug" element={<CollectionDetailPage dataPath="/data/howto.json" backPath="/frontend" backLabel="Инструкции" />} />
           </Routes>
         </div>
         <Footer />
