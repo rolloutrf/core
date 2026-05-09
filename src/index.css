@@ -119,12 +119,15 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    min-width: 0;
     }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
     }
   html {
     @apply font-sans;
+    overflow-x: hidden;
     }
 }
 
