@@ -37,6 +37,21 @@ function walkFiles(dir) {
   return results
 }
 
+// Typography: apply Russian typographic rules to markdown text
+function typograph(text) {
+  return text
+    // Em dash: " - " → " — " (not inside code blocks or URLs)
+    .replace(/(?<=[^\s`]|^) - (?=[^\s-])/gm, ' — ')
+    .replace(/(^|\n)([-–]) /gm, '$1— ')
+    // Quotes: "text" → «text»
+    .replace(/"([^"\n]+)"/g, '«$1»')
+    // Non-breaking space after short prepositions and conjunctions
+    .replace(/\b(в|В|на|На|по|По|из|Из|за|За|от|От|до|До|со|Со|об|Об|без|Без|над|Над|под|Под|при|При|про|Про|для|Для|что|Что|как|Как|или|Или|и|И|а|А|но|Но|не|Не|ни|Ни|то|То|же|бы|ли) /g, '$1\u00A0')
+    // Non-breaking space before last word in short phrases (widow protection) — skip, too complex
+    // Ellipsis: "..." → "…"
+    .replace(/\.{3}/g, '…')
+}
+
 function createSlug(value) {
   return value
     .normalize('NFKC')
@@ -76,7 +91,7 @@ if (existsSync(tasksDir)) {
       usedTaskSlugs.add(slug)
 
       const rawTaskContent = readFileSync(filePath, 'utf-8')
-      const taskContent = rawTaskContent.replace(/\(([^\)]+)\)\[([^\]]+)\]/g, '[$1]($2)')
+      const taskContent = typograph(rawTaskContent.replace(/\(([^\)]+)\)\[([^\]]+)\]/g, '[$1]($2)'))
       const headingMatch = taskContent.match(/^#\s+(.+)$/m)
       const taskName = headingMatch ? headingMatch[1].trim() : file.replace(/\.md$/i, '')
       tasks.push({
@@ -122,7 +137,7 @@ if (existsSync(specsDir)) {
       slug,
       dirName: dir.name,
       title,
-      content: readFileSync(join(dirPath, mdFile), 'utf-8'),
+      content: typograph(readFileSync(join(dirPath, mdFile), 'utf-8')),
     })
   }
 }
@@ -140,7 +155,7 @@ if (existsSync(callsDir)) {
   const usedSlugs = new Set()
 
   for (const file of callFiles) {
-    const content = readFileSync(join(callsDir, file), 'utf-8')
+    const content = typograph(readFileSync(join(callsDir, file), 'utf-8'))
     const headingMatch = content.match(/^#\s+(.+)$/m)
     const baseSlug = createSlug(file) || `call-${calls.length + 1}`
     let slug = baseSlug
@@ -178,7 +193,7 @@ const usedArticleSlugs = new Set()
 function pushArticle(filePath, slugOverride) {
   if (!existsSync(filePath) || !filePath.endsWith('.md')) return
 
-  let content = readFileSync(filePath, 'utf-8')
+  let content = typograph(readFileSync(filePath, 'utf-8'))
   if (content.trim() === '...') return
 
   const headingMatch = content.match(/^#\s+(.+)$/m)
@@ -287,7 +302,7 @@ if (existsSync(vacancyDir)) {
     vacancies.push({
       slug,
       title,
-      content: readFileSync(join(vacancyDir, file), 'utf-8'),
+      content: typograph(readFileSync(join(vacancyDir, file), 'utf-8')),
     })
   }
 }
@@ -304,7 +319,7 @@ if (existsSync(onboardingDir)) {
   for (const filePath of walkFiles(onboardingDir).sort((a, b) => a.localeCompare(b, 'ru', { numeric: true, sensitivity: 'base' }))) {
     if (!filePath.endsWith('.md')) continue
 
-    const content = readFileSync(filePath, 'utf-8')
+    const content = typograph(readFileSync(filePath, 'utf-8'))
     const title = basename(filePath).replace(/\.md$/i, '')
     const headingMatch = content.match(/^#\s+(.+)$/m)
     const baseSlug = createSlug(title) || `onboarding-${onboarding.length + 1}`
@@ -335,7 +350,7 @@ const howto = []
 if (existsSync(howtoDir)) {
   const usedHowtoSlugs = new Set()
   for (const file of readdirSync(howtoDir).filter(f => f.endsWith('.md')).sort()) {
-    const content = readFileSync(join(howtoDir, file), 'utf-8')
+    const content = typograph(readFileSync(join(howtoDir, file), 'utf-8'))
     const headingMatch = content.match(/^#\s+(.+)$/m)
     const title = headingMatch ? headingMatch[1].trim() : file.replace(/\.md$/i, '')
     const baseSlug = createSlug(file) || `howto-${howto.length + 1}`
@@ -359,7 +374,7 @@ const strategy = []
 if (existsSync(strategyDir)) {
   const usedStrategySlugs = new Set()
   for (const file of readdirSync(strategyDir).filter(f => f.endsWith('.md')).sort()) {
-    const content = readFileSync(join(strategyDir, file), 'utf-8')
+    const content = typograph(readFileSync(join(strategyDir, file), 'utf-8'))
     const headingMatch = content.match(/^#\s+(.+)$/m)
     const title = headingMatch ? headingMatch[1].trim() : file.replace(/\.md$/i, '')
     const baseSlug = createSlug(file) || `strategy-${strategy.length + 1}`
