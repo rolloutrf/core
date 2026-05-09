@@ -38,7 +38,7 @@ function Footer() {
     <footer className="py-8 md:py-12 px-6">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <img src="https://static.tildacdn.com/tild3466-6438-4330-b739-303166383362/favi.png" alt="Rollout" className="h-18 w-18" />
-        <span className="text-sm text-muted-foreground">Rollout</span>
+        <span className="text-sm text-muted-foreground">РОЛЛАУТ™</span>
       </div>
     </footer>
   )
