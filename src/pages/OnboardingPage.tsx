@@ -86,7 +86,7 @@ export function OnboardingPage() {
   if (loading) {
     return (
       <div className="py-16 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <p className="text-muted-foreground text-sm animate-pulse">Загрузка…</p>
         </div>
       </div>
@@ -96,7 +96,7 @@ export function OnboardingPage() {
   if (error || !normalizedContent) {
     return (
       <div className="py-16 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <p className="text-muted-foreground">Ошибка загрузки: {error ?? 'Неизвестная ошибка'}</p>
         </div>
       </div>
@@ -105,7 +105,7 @@ export function OnboardingPage() {
 
   return (
     <div className="py-16 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <ReactMarkdown
           components={{
             h1: ({ children }) => (

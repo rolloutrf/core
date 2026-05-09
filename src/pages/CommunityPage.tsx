@@ -35,7 +35,7 @@ export function CommunityPage() {
 
   return (
     <div className="py-16 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Комьюнити</h1>
         <p className="text-lg md:text-xl text-muted-foreground mb-10 md:mb-12 max-w-2xl leading-relaxed">
           Эксперты из финтеха, e-commerce и смежных областей

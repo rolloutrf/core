@@ -48,7 +48,7 @@ export function CallsPage() {
 
   return (
     <div className="py-16 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Звонки</h1>
         <p className="text-muted-foreground mb-10 md:mb-12 max-w-lg leading-relaxed">
           Архив записей созвонов Rollout

@@ -43,7 +43,7 @@ export function CommunityMemberPage() {
   if (loading) {
     return (
       <div className="py-12 px-6">
-        <div className="max-w-5xl mx-auto text-muted-foreground text-sm animate-pulse">Загрузка…</div>
+        <div className="max-w-3xl mx-auto text-muted-foreground text-sm animate-pulse">Загрузка…</div>
       </div>
     )
   }
@@ -51,14 +51,14 @@ export function CommunityMemberPage() {
   if (error) {
     return (
       <div className="py-12 px-6">
-        <div className="max-w-5xl mx-auto text-muted-foreground text-sm">Ошибка загрузки: {error}</div>
+        <div className="max-w-3xl mx-auto text-muted-foreground text-sm">Ошибка загрузки: {error}</div>
       </div>
     )
   }
 
   if (!person) {
     return (
-      <div className="py-16 px-6 max-w-7xl mx-auto text-muted-foreground">
+      <div className="py-16 px-6 max-w-3xl mx-auto text-muted-foreground">
         Страница не найдена.{' '}
         <button onClick={() => navigate(-1)} className="underline underline-offset-2">
           Назад
@@ -69,7 +69,7 @@ export function CommunityMemberPage() {
 
   return (
     <div className="py-12 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <button
           onClick={() => navigate('/сообщество')}
           className="text-xs text-muted-foreground hover:text-foreground transition-colors mb-10 flex items-center gap-1"

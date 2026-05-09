@@ -16,7 +16,7 @@ export function MarkdownPage() {
 
   if (!state?.content && !state?.rawUrl) {
     return (
-      <div className="py-16 px-6 max-w-7xl mx-auto text-muted-foreground">
+      <div className="py-16 px-6 max-w-3xl mx-auto text-muted-foreground">
         Страница не найдена.{' '}
         <button onClick={() => navigate(-1)} className="underline underline-offset-2">
           Назад
@@ -27,7 +27,7 @@ export function MarkdownPage() {
 
   return (
     <div className="py-12 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <button
           onClick={() => navigate(state.backPath)}
           className="text-xs text-muted-foreground hover:text-foreground transition-colors mb-10 flex items-center gap-1"

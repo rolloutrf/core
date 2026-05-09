@@ -83,7 +83,7 @@ export function IntroPage() {
   if (loading) {
     return (
       <div className="py-16 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <p className="text-muted-foreground text-sm animate-pulse">Загрузка…</p>
         </div>
       </div>
@@ -93,7 +93,7 @@ export function IntroPage() {
   if (error || !normalizedContent) {
     return (
       <div className="py-16 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <p className="text-muted-foreground mb-6">Ошибка загрузки: {error ?? 'Неизвестная ошибка'}</p>
         </div>
       </div>
@@ -102,7 +102,7 @@ export function IntroPage() {
 
   return (
     <div className="py-16 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <ReactMarkdown
           components={{
             h1: ({ children }) => (

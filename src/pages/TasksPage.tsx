@@ -50,7 +50,7 @@ export function TasksPage() {
 
   return (
     <div className="py-16 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Задачи</h1>
         <p className="text-muted-foreground mb-12 max-w-lg leading-relaxed">
           Открытые задачи проекта — берите любую и присоединяйтесь к команде

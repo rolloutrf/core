@@ -38,7 +38,7 @@ export function StrategyPage() {
 
   return (
     <div className="py-16 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Стратегия</h1>
         <p className="text-muted-foreground mb-12 max-w-lg leading-relaxed">
           Стратегические документы и планы развития проекта
