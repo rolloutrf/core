@@ -50,6 +50,8 @@ function typograph(text) {
     // Non-breaking space before last word in short phrases (widow protection) — skip, too complex
     // Ellipsis: "..." → "…"
     .replace(/\.{3}/g, '…')
+    // Ensure each "— " line is a separate paragraph
+    .replace(/([^\n])\n(— )/g, '$1\n\n$2')
 }
 
 function createSlug(value) {
