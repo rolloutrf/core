@@ -43,7 +43,7 @@ export function ArticlesPage() {
         {error && <p className="text-muted-foreground text-sm">Ошибка загрузки: {error}</p>}
 
         {!loading && !error && (
-          <div className="divide-y divide-border border-y border-border">
+          <div className="divide-y divide-border">
             {articles.map((article) => (
               <div key={article.slug} className="py-12">
                 <ReactMarkdown
