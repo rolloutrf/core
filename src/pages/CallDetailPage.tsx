@@ -104,7 +104,7 @@ export function CallDetailPage() {
     <div className="py-12 px-6">
       <div className="max-w-5xl mx-auto">
         <button
-          onClick={() => navigate('/calls')}
+          onClick={() => navigate('/созвоны')}
           className="text-xs text-muted-foreground hover:text-foreground transition-colors mb-10 flex items-center gap-1"
         >
           ← Звонки

@@ -64,7 +64,7 @@ export function TasksPage() {
             {tasks.map((task) => (
               <Link
                 key={task.slug}
-                to={`/tasks/${task.slug}`}
+                to={`/задачи/${task.slug}`}
                 className="flex items-center justify-between py-4 group hover:bg-muted/30 px-2 -mx-2 rounded transition-colors"
               >
                 <div className="flex items-center gap-4 min-w-0">

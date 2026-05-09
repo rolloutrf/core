@@ -52,7 +52,7 @@ export function StrategyPage() {
             {items.map((item) => (
               <Link
                 key={item.slug}
-                to={`/strategy/${item.slug}`}
+                to={`/стратегия/${item.slug}`}
                 className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
               >
                 <span className="font-normal">{item.title}</span>

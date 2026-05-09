@@ -53,7 +53,7 @@ export function SpecsPage() {
             {specs.map((spec) => (
               <Link
                 key={spec.slug}
-                to={`/specs/${spec.slug}`}
+                to={`/спецификации/${spec.slug}`}
                 className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
               >
                 <span className="flex items-center gap-4">

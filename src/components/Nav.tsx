@@ -3,15 +3,15 @@ import { cn } from '@/lib/utils'
 
 const links = [
   { to: '/', label: 'Главная' },
-  { to: '/tasks', label: 'Задачи' },
-  { to: '/specs', label: 'Спецификации' },
-  { to: '/community', label: 'Комьюнити' },
-  { to: '/intro', label: 'Интро' },
-  { to: '/calls', label: 'Звонки' },
-  { to: '/articles', label: 'Публикации' },
-  { to: '/onboarding', label: 'Онбординг' },
-  { to: '/strategy', label: 'Стратегия' },
-  { to: '/frontend', label: 'Инструкции' },
+  { to: '/задачи', label: 'Задачи' },
+  { to: '/спецификации', label: 'Спецификации' },
+  { to: '/сообщество', label: 'Комьюнити' },
+  { to: '/интро', label: 'Интро' },
+  { to: '/созвоны', label: 'Звонки' },
+  { to: '/публикации', label: 'Публикации' },
+  { to: '/онбординг', label: 'Онбординг' },
+  { to: '/стратегия', label: 'Стратегия' },
+  { to: '/инструкции', label: 'Инструкции' },
 ]
 
 export function Nav() {

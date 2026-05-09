@@ -54,7 +54,7 @@ export function FrontendPage() {
             {items.map((item) => (
               <Link
                 key={item.slug}
-                to={`/frontend/${item.slug}`}
+                to={`/инструкции/${item.slug}`}
                 className="flex items-center justify-between py-5 group hover:text-muted-foreground transition-colors"
               >
                 <span className="font-normal">{item.title}</span>

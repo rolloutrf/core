@@ -52,25 +52,25 @@ function App() {
         <div className="flex-1">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/tasks" element={<TasksPage />} />
-            <Route path="/tasks/:slug" element={<CollectionDetailPage dataPath="/data/tasks.json" backPath="/tasks" backLabel="Задачи" titleFallbackKey="name" />} />
-            <Route path="/specs" element={<SpecsPage />} />
-            <Route path="/specs/:slug" element={<CollectionDetailPage dataPath="/data/specs.json" backPath="/specs" backLabel="Спецификации" />} />
-            <Route path="/community" element={<CommunityPage />} />
-            <Route path="/community/:slug" element={<CommunityMemberPage />} />
-            <Route path="/intro" element={<IntroPage />} />
-            <Route path="/video" element={<VideoPage />} />
-            <Route path="/vacancies/:slug" element={<CollectionDetailPage dataPath="/data/vacancies.json" backPath="/" backLabel="Главная" />} />
-            <Route path="/calls" element={<CallsPage />} />
-            <Route path="/calls/:slug" element={<CallDetailPage />} />
-            <Route path="/articles" element={<ArticlesPage />} />
-            <Route path="/articles/:slug" element={<CollectionDetailPage dataPath="/data/articles.json" backPath="/articles" backLabel="Публикации" />} />
-            <Route path="/onboarding" element={<OnboardingPage />} />
-            <Route path="/onboarding/:slug" element={<CollectionDetailPage dataPath="/data/onboarding.json" backPath="/onboarding" backLabel="Онбординг" />} />
-            <Route path="/strategy" element={<StrategyPage />} />
-            <Route path="/strategy/:slug" element={<CollectionDetailPage dataPath="/data/strategy.json" backPath="/strategy" backLabel="Стратегия" />} />
-            <Route path="/frontend" element={<FrontendPage />} />
-            <Route path="/frontend/:slug" element={<CollectionDetailPage dataPath="/data/howto.json" backPath="/frontend" backLabel="Инструкции" />} />
+            <Route path="/задачи" element={<TasksPage />} />
+            <Route path="/задачи/:slug" element={<CollectionDetailPage dataPath="/data/tasks.json" backPath="/задачи" backLabel="Задачи" titleFallbackKey="name" />} />
+            <Route path="/спецификации" element={<SpecsPage />} />
+            <Route path="/спецификации/:slug" element={<CollectionDetailPage dataPath="/data/specs.json" backPath="/спецификации" backLabel="Спецификации" />} />
+            <Route path="/сообщество" element={<CommunityPage />} />
+            <Route path="/сообщество/:slug" element={<CommunityMemberPage />} />
+            <Route path="/интро" element={<IntroPage />} />
+            <Route path="/видео" element={<VideoPage />} />
+            <Route path="/вакансии/:slug" element={<CollectionDetailPage dataPath="/data/vacancies.json" backPath="/" backLabel="Главная" />} />
+            <Route path="/созвоны" element={<CallsPage />} />
+            <Route path="/созвоны/:slug" element={<CallDetailPage />} />
+            <Route path="/публикации" element={<ArticlesPage />} />
+            <Route path="/публикации/:slug" element={<CollectionDetailPage dataPath="/data/articles.json" backPath="/публикации" backLabel="Публикации" />} />
+            <Route path="/онбординг" element={<OnboardingPage />} />
+            <Route path="/онбординг/:slug" element={<CollectionDetailPage dataPath="/data/onboarding.json" backPath="/онбординг" backLabel="Онбординг" />} />
+            <Route path="/стратегия" element={<StrategyPage />} />
+            <Route path="/стратегия/:slug" element={<CollectionDetailPage dataPath="/data/strategy.json" backPath="/стратегия" backLabel="Стратегия" />} />
+            <Route path="/инструкции" element={<FrontendPage />} />
+            <Route path="/инструкции/:slug" element={<CollectionDetailPage dataPath="/data/howto.json" backPath="/инструкции" backLabel="Инструкции" />} />
           </Routes>
         </div>
         <Footer />

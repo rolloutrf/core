@@ -78,7 +78,7 @@ export function VideoPage() {
                   <div className="flex items-center justify-between gap-4 mb-6">
                     <h2 className="text-2xl md:text-3xl font-normal tracking-tight">{video.title}</h2>
                     <Link
-                      to={`/calls/${video.slug}`}
+                      to={`/созвоны/${video.slug}`}
                       className="text-sm text-[#E8552D] hover:text-foreground transition-colors shrink-0"
                     >
                       Открыть страницу →

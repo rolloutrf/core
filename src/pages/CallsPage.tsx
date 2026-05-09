@@ -62,7 +62,7 @@ export function CallsPage() {
             {calls.map((call, index) => (
               <Link
                 key={call.slug}
-                to={`/calls/${call.slug}`}
+                to={`/созвоны/${call.slug}`}
                 className="flex items-center justify-between py-5 group hover:bg-muted/30 px-2 -mx-2 transition-colors"
               >
                 <div className="flex items-center gap-4 min-w-0">

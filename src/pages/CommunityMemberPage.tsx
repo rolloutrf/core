@@ -71,7 +71,7 @@ export function CommunityMemberPage() {
     <div className="py-12 px-6">
       <div className="max-w-5xl mx-auto">
         <button
-          onClick={() => navigate('/community')}
+          onClick={() => navigate('/сообщество')}
           className="text-xs text-muted-foreground hover:text-foreground transition-colors mb-10 flex items-center gap-1"
         >
           ← Комьюнити
