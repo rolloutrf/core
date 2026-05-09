@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Red background -->
+  <rect width="100" height="100" fill="#E8552D"/>
+
+  <!-- Large black square top-left -->
+  <rect x="7" y="7" width="38" height="38" fill="#0d0d0d"/>
+
+  <!-- Diagonal ellipse ring (orbit) -->
+  <ellipse cx="48" cy="52" rx="42" ry="17" transform="rotate(-33 48 52)" fill="none" stroke="#0d0d0d" stroke-width="11"/>
+
+  <!-- White square in center (over ellipse) -->
+  <rect x="30" y="34" width="22" height="22" fill="white"/>
+
+  <!-- Small black circle bottom-right -->
+  <circle cx="76" cy="79" r="12" fill="#0d0d0d"/>
+</svg>
