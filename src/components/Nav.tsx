@@ -10,6 +10,7 @@ const links = [
   { to: '/calls', label: 'Звонки' },
   { to: '/articles', label: 'Публикации' },
   { to: '/onboarding', label: 'Онбординг' },
+  { to: '/strategy', label: 'Стратегия' },
   { to: '/frontend', label: 'Инструкции' },
 ]
 

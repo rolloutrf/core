@@ -50,7 +50,7 @@ function createSlug(value) {
 
 // 1. Tasks
 console.log('Generating tasks.json...')
-const tasksDir = join(DATA_DIR, 'Tasks')
+const tasksDir = join(DATA_DIR, 'Задачи')
 const tasks = []
 if (existsSync(tasksDir)) {
   const usedTaskSlugs = new Set()
@@ -93,7 +93,7 @@ console.log(`  ${tasks.length} tasks`)
 
 // 2. Specs
 console.log('Generating specs.json...')
-const specsDir = join(DATA_DIR, 'Specs')
+const specsDir = join(DATA_DIR, 'Спецификации')
 const specs = []
 if (existsSync(specsDir)) {
   const usedSpecSlugs = new Set()
@@ -131,7 +131,7 @@ console.log(`  ${specs.length} specs`)
 
 // 3. Calls
 console.log('Generating calls.json...')
-const callsDir = join(DATA_DIR, 'Calls')
+const callsDir = join(DATA_DIR, 'Созвоны')
 const calls = []
 if (existsSync(callsDir)) {
   const callFiles = readdirSync(callsDir)
@@ -171,7 +171,7 @@ console.log(`  ${calls.length} calls`)
 
 // 4. Articles
 console.log('Generating articles.json...')
-const articlesDir = join(DATA_DIR, 'Articles')
+const articlesDir = join(DATA_DIR, 'Публикации')
 const articles = []
 const usedArticleSlugs = new Set()
 
@@ -222,7 +222,7 @@ console.log(`  ${articles.length} articles`)
 
 // 5. Community
 console.log('Generating community.json...')
-const communityFile = join(DATA_DIR, 'Community', 'people.md')
+const communityFile = join(DATA_DIR, 'Сообщество', 'people.md')
 if (existsSync(communityFile)) {
   writeFileSync(
     join(OUT_DIR, 'community.json'),
@@ -233,7 +233,7 @@ if (existsSync(communityFile)) {
 }
 
 // Copy community photos
-const photosDir = join(DATA_DIR, 'Community', 'photos')
+const photosDir = join(DATA_DIR, 'Сообщество', 'photos')
 if (existsSync(photosDir)) {
   cpSync(photosDir, join(OUT_DIR, 'community-photos'), { recursive: true })
   const photoCount = readdirSync(join(OUT_DIR, 'community-photos')).length
@@ -242,7 +242,7 @@ if (existsSync(photosDir)) {
 
 // 6. Intro
 console.log('Generating intro.json...')
-const introDir = join(DATA_DIR, 'Intro')
+const introDir = join(DATA_DIR, 'Интро')
 let introContent = ''
 if (existsSync(introDir)) {
   const introFile = readdirSync(introDir).find(f => f.endsWith('.md'))
@@ -266,7 +266,7 @@ console.log(`  ${calls.length} video items`)
 
 // 8. Vacancies
 console.log('Generating vacancies.json...')
-const vacancyDir = join(DATA_DIR, 'Vacancy')
+const vacancyDir = join(DATA_DIR, 'Вакансии')
 const vacancies = []
 if (existsSync(vacancyDir)) {
   const usedVacancySlugs = new Set()
@@ -296,7 +296,7 @@ console.log(`  ${vacancies.length} vacancies`)
 
 // 9. Onboarding
 console.log('Generating onboarding.json...')
-const onboardingDir = join(DATA_DIR, 'Onboarding')
+const onboardingDir = join(DATA_DIR, 'Онбординг')
 const onboarding = []
 if (existsSync(onboardingDir)) {
   const usedOnboardingSlugs = new Set()
@@ -330,7 +330,7 @@ console.log(`  ${onboarding.length} onboarding docs`)
 
 // 10. HowTo
 console.log('Generating howto.json...')
-const howtoDir = join(DATA_DIR, 'HowTo')
+const howtoDir = join(DATA_DIR, 'Инструкции')
 const howto = []
 if (existsSync(howtoDir)) {
   const usedHowtoSlugs = new Set()
@@ -351,5 +351,29 @@ if (existsSync(howtoDir)) {
 }
 writeFileSync(join(OUT_DIR, 'howto.json'), JSON.stringify(howto, null, 2))
 console.log(`  ${howto.length} howto docs`)
+
+// 11. Strategy
+console.log('Generating strategy.json...')
+const strategyDir = join(DATA_DIR, 'Стратегия')
+const strategy = []
+if (existsSync(strategyDir)) {
+  const usedStrategySlugs = new Set()
+  for (const file of readdirSync(strategyDir).filter(f => f.endsWith('.md')).sort()) {
+    const content = readFileSync(join(strategyDir, file), 'utf-8')
+    const headingMatch = content.match(/^#\s+(.+)$/m)
+    const title = headingMatch ? headingMatch[1].trim() : file.replace(/\.md$/i, '')
+    const baseSlug = createSlug(file) || `strategy-${strategy.length + 1}`
+    let slug = baseSlug
+    let duplicateIndex = 2
+    while (usedStrategySlugs.has(slug)) {
+      slug = `${baseSlug}-${duplicateIndex}`
+      duplicateIndex += 1
+    }
+    usedStrategySlugs.add(slug)
+    strategy.push({ slug, title, content })
+  }
+}
+writeFileSync(join(OUT_DIR, 'strategy.json'), JSON.stringify(strategy, null, 2))
+console.log(`  ${strategy.length} strategy docs`)
 
 console.log('Prebuild complete!')
