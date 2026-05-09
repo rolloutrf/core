@@ -54,7 +54,7 @@ export function ArticlesPage() {
                 <ReactMarkdown
                   components={{
                     h1: ({ children }) => (
-                      <h1 className="text-3xl font-normal tracking-tight mb-8 mt-0">{children}</h1>
+                      <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-8 mt-0">{children}</h1>
                     ),
                     h2: ({ children }) => (
                       <h2 className="text-xl font-normal mt-10 mb-4">{children}</h2>
@@ -95,7 +95,9 @@ export function ArticlesPage() {
                       <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>
                     ),
                     img: ({ src, alt }) => (
-                      <img src={src} alt={alt ?? ''} className="w-full my-6" />
+                      <div className="relative left-1/2 -translate-x-1/2 w-[min(64rem,100vw)] my-6">
+                        <img src={src} alt={alt ?? ''} className="w-full" />
+                      </div>
                     ),
                   }}
                 >
