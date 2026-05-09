@@ -1,16 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Red background -->
-  <rect width="100" height="100" fill="#E8552D"/>
-
-  <!-- Large black square top-left -->
-  <rect x="7" y="7" width="38" height="38" fill="#0d0d0d"/>
-
-  <!-- Diagonal ellipse ring (orbit) -->
-  <ellipse cx="48" cy="52" rx="42" ry="17" transform="rotate(-33 48 52)" fill="none" stroke="#0d0d0d" stroke-width="11"/>
-
-  <!-- White square in center (over ellipse) -->
-  <rect x="30" y="34" width="22" height="22" fill="white"/>
-
-  <!-- Small black circle bottom-right -->
-  <circle cx="76" cy="79" r="12" fill="#0d0d0d"/>
+<svg width="905" height="871" viewBox="0 0 905 871" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="273.297" height="285.443" fill="white"/>
+<rect x="601.262" y="564.81" width="303.663" height="303.663" rx="151.832" fill="white"/>
+<path d="M294.093 290.755C497.401 70.8787 723.387 -48.2345 803.254 24.0098C884.658 97.6454 783.435 342.194 577.166 570.224C370.897 798.253 137.692 923.414 56.2881 849.778C-25.1155 776.143 76.1073 531.595 282.376 303.565C285.358 300.269 288.346 296.995 291.338 293.742V576.198H564.635V290.755H294.093Z" fill="white"/>
 </svg>
